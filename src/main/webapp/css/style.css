@@ -1,0 +1,103 @@
+@CHARSET "UTF-8";
+* {
+    box-sizing: inherit;
+    margin: 0;
+    padding: 0;
+    font-family: Georgia, serif;
+}
+body {
+    background-color: #F3F3F3;
+}
+#titelheader {
+    margin-bottom: 1em;
+}
+#welkproduct, #producttekoop {
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+}
+.idform {
+    margin-bottom: 0.5em;
+}
+input {
+    padding: 12px 20px;;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 2px solid #932432;
+    border-radius: 4px;
+}
+h1 {
+    color: #3C1874;
+    margin-top: 1em;
+}
+p, nav ul li {
+    color: #283747;
+}
+/*nav ul li {
+    border: 1px solid #DE354C;
+    border-radius: 25px;
+    padding: 20px;
+    margin-bottom: 1em;
+}*/
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #932432;
+}
+li {
+    float: left;
+}
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+#overzichttekoop {
+    margin-bottom: 0.5em;
+}
+#welkom, #welkproduct, #verkoopproduct, #overzichttekoop {
+    margin-top: 0.5em;
+}
+tr, th, td {
+    padding: 10px 40px 10px 5px;
+}
+header {
+    color: #932432;
+}
+header, main {
+    margin: 9px auto;
+    width: 70%;
+}
+header nav >ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+header nav > ul li{
+    display: block;
+}
+header div {
+    flex-grow: 1;
+    padding-right: 60px;
+}
+
+header,  header  nav > ul {
+    display: flex;
+    justify-content: space-between;
+}
+
+header div{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+table {
+    max-width: 100%;
+    background-color: transparent;
+    border-top: 2px solid #666;
+    border-bottom: 2px solid #666;
+    border-collapse: collapse;
+}
