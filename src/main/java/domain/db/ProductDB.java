@@ -14,25 +14,27 @@ public class ProductDB {
     }
 
     public void voegToe(Product product) {
+        if (producten.contains(product)) throw new IllegalArgumentException("Je mag geen 2 keer hetzelfde product toevoegen");
         producten.add(product);
     }
 
     public ArrayList<Product> getProducten() {
+        if (producten.size() == 0) return null;
         return this.producten;
     }
 
-    public void verwijder(String naam, String voornaam, String productnaam) {
+    public void verwijder(String naam, String voornaam, String productnaam, double prijs) {
         for (int i = 0; i != producten.size(); i++) {
-            if (producten.get(i).getNaam().equals(naam) && producten.get(i).getVoornaam().equals(voornaam) && producten.get(i).getProductnaam().equals(productnaam)) {
+            if (producten.get(i).getNaam().equals(naam) && producten.get(i).getVoornaam().equals(voornaam) && producten.get(i).getProductnaam().equals(productnaam) && producten.get(i).getPrijs() == prijs) {
                 producten.remove(i);
                 break;
             }
         }
     }
 
-    public Product vindProduct (String productnaam, double prijs) {
+    public Product vindProduct (String naam, String voornaam, String productnaam, double prijs) {
         for (Product product : producten) {
-            if (product.heeftPrijsEnProductnaam(productnaam,prijs)) {
+            if (product.getNaam().equals(naam) && product.getVoornaam().equals(voornaam) && product.getProductnaam().equals(productnaam) && product.getPrijs() == prijs) {
                 return product;
             }
         }

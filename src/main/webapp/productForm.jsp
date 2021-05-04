@@ -27,22 +27,22 @@
             </p>
             <p class="idform">
                 <label for="naam">
-                    Naam: <input id="naam" name="naam" type="text" value="" required>
+                    Naam: <input id="naam" name="naam" type="text" value="">
                 </label>
             </p>
             <p class="idform">
                 <label for="voornaam">
-                    Voornaam: <input id="voornaam" name="voornaam" type="text" value="" required>
+                    Voornaam: <input id="voornaam" name="voornaam" type="text" value="">
                 </label>
             </p>
             <p class="idform">
                 <label for="productnaam">
-                    Productnaam: <input id="productnaam" name="productnaam" type="text" value="" required>
+                    Productnaam: <input id="productnaam" name="productnaam" type="text" value="">
                 </label>
             </p>
             <p class="idform">
                 <label for="prijs">
-                    Prijs: <input id="prijs" name="prijs" type="text" value="" required>
+                    Prijs: <input id="prijs" name="prijs" type="text" value="">
                 </label>
             </p>
             <p class="idform">

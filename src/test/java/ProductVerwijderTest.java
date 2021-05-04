@@ -11,7 +11,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-public class ProductVoegToeTest {
+public class ProductVerwijderTest {
     private WebDriver driver;
     private String url = "http://localhost:8080/mensaert_jarno_war/";
 
@@ -28,9 +28,11 @@ public class ProductVoegToeTest {
     }
 
     @Test
-    public void test_ProductForm_alles_invullen_gaat_naar_overzicht_en_toont_nieuw_product() {
+    public void test_Verwijder_product_met_op_toch_niet_te_clicken_verwijdert_product_niet_en_gaat_terug_naar_overzicht() {
         driver.get(url + "productForm.jsp");
         voegProductToe("Mensaert","Jarno", "muis", 14.00);
+        driver.findElement(By.id("verwijder")).click();
+        driver.findElement(By.id("tochniet")).click();
         assertEquals("Overzicht producten", driver.getTitle());
         assertEquals("Producten te koop", driver.findElement(By.id("overzichttekoop")).getText());
         assertTrue(paginaBevatTdMetText(driver.findElements(By.tagName("td")), "Mensaert"));
@@ -40,15 +42,18 @@ public class ProductVoegToeTest {
     }
 
     @Test
-    public void test_Als_leeg_product_wordt_toegevoegd_Dan_terug_naar_productForm() {
+    public void test_Verwijder_product_met_op_zeker_te_clicken_verwijdert_produc_en_gaat_terug_naar_overzicht() {
         driver.get(url + "productForm.jsp");
-        voegProductToe("","","", 0);
-        assertEquals("Gamingproduct toevoegen", driver.getTitle());
+        voegProductToe("Mensaert","Jarno", "muis", 14.00);
+        driver.findElement(By.id("verwijder")).click();
+        driver.findElement(By.id("zeker")).click();
+        assertEquals("Overzicht producten", driver.getTitle());
+        assertEquals("Producten te koop", driver.findElement(By.id("overzichttekoop")).getText());
+        assertFalse(paginaBevatTdMetText(driver.findElements(By.tagName("td")), "Mensaert"));
+        assertFalse(paginaBevatTdMetText(driver.findElements(By.tagName("td")), "Jarno"));
+        assertFalse(paginaBevatTdMetText(driver.findElements(By.tagName("td")), "muis"));
+        assertFalse(paginaBevatTdMetText(driver.findElements(By.tagName("td")), "14.0"));
     }
-
-    /*@Test void test_Als_product_toegevoeg_wordt_dat_al_bestaan_Dan_terug_naar_productform() {
-
-    }*/
 
     private void voegProductToe(String naam, String voornaam, String productnaam, double prijs) {
         driver.findElement(By.id("naam")).sendKeys(naam);

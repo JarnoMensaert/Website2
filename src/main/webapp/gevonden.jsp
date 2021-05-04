@@ -1,10 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: mensa
-  Date: 14/03/2021
-  Time: 14:48
-  To change this template use File | Settings | File Templates.
---%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -20,7 +14,7 @@
     </jsp:include>
 
     <main id="container1">
-        <h1>Gevonden!</h1>
+        <h1 id="gevonden">Gevonden!</h1>
         <p id="boodschap">
             Je vroeg naar volgende gegevens: ${productnaam} ${prijs} euro
         </p>

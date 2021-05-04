@@ -26,6 +26,16 @@
                 Welk product zoek je?
             </p>
             <p class="idform">
+                <label for="naam">
+                    Naam: <input id="naam" name="naam" type="text" value="" required>
+                </label>
+            </p>
+            <p class="idform">
+                <label for="voornaam">
+                    Voornaam: <input id="voornaam" name="voornaam" type="text" value="" required>
+                </label>
+            </p>
+            <p class="idform">
                 <label for="productnaam">
                     Productnaam: <input id="productnaam" name="productnaam" type="text" value="" required>
                 </label>

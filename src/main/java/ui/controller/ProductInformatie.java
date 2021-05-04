@@ -41,6 +41,9 @@ public class ProductInformatie extends HttpServlet {
             case "verwijder" :
                 destination = verwijder(request, response);
                 break;
+            case "verwijderBevestiging" :
+                destination = verwijderBevestiging(request, response);
+                break;
             case "zoekProduct" :
                 destination = zoekProduct(request, response);
                 break;
@@ -80,29 +83,51 @@ public class ProductInformatie extends HttpServlet {
         String naam = request.getParameter("naam");
         String voornaam = request.getParameter("voornaam");
         String productnaam = request.getParameter("productnaam");
+        String prijsString = request.getParameter("prijs");
+        double prijs = Double.parseDouble(prijsString);
 
         request.setAttribute("naam", naam);
         request.setAttribute("voornaam", voornaam);
         request.setAttribute("productnaam", productnaam);
-        db.verwijder(naam, voornaam, productnaam);
-        return overzicht(request, response);
+        request.setAttribute("prijs", prijs);
+        return "verwijderBevestiging.jsp";
+    }
+
+    private String verwijderBevestiging(HttpServletRequest request, HttpServletResponse response) {
+        String naam = request.getParameter("naam");
+        String voornaam = request.getParameter("voornaam");
+        String productnaam = request.getParameter("productnaam");
+        String prijsString = request.getParameter("prijs");
+        double prijs = Double.parseDouble(prijsString);
+        if (request.getParameter("bevestiging") == null) {
+            return overzicht(request, response);
+        }
+        else {
+            db.verwijder(naam, voornaam, productnaam, prijs);
+            return overzicht(request, response);
+        }
     }
 
     private String zoekProduct(HttpServletRequest request, HttpServletResponse response) {
+        String naam = request.getParameter("naam");
+        String voornaam = request.getParameter("voornaam");
         String productnaam = request.getParameter("productnaam");
         String prijsString = request.getParameter("prijs");
 
-        if (productnaam == null || prijsString == null) {
+        if (productnaam == null || prijsString == null || naam == null || voornaam == null) {
             return "nietGevonden.jsp";
         }
         else {
             double prijs = Double.parseDouble(prijsString);
-            Product product = db.vindProduct(productnaam, prijs);
+            Product product = db.vindProduct(naam, voornaam, productnaam, prijs);
             if (product == null) {
                 return "nietGevonden.jsp";
             }
             else {
-                request.setAttribute("product", product);
+                request.setAttribute("naam", naam);
+                request.setAttribute("voornaam", voornaam);
+                request.setAttribute("productnaam", productnaam);
+                request.setAttribute("prijs", prijs);
                 return "gevonden.jsp";
             }
         }

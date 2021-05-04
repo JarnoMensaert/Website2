@@ -1,10 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: mensa
-  Date: 5/4/2021
-  Time: 10:11 AM
-  To change this template use File | Settings | File Templates.
---%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -14,14 +8,18 @@
 </head>
 <body>
 
+    <jsp:include page="header.jsp">
+        <jsp:param name="actual" value=""/>
+    </jsp:include>
+
 <main id="container1">
     <article>
         <h2>Verwijder dit product</h2>
 
-        <p>Ben je zeker dat je het product ...... wil verwijderen?</p>
-        <form action="ProductInformatie?command=verwijder" method="POST">
-            <input type="submit" value="Zeker" name="bevestiging">
-            <input type="submit" value="Toch niet" name="geenbevestiging">
+        <p>Ben je zeker dat je het product ${productnaam} van ${naam} ${voornaam} aan en prijs van ${prijs} wil verwijderen?</p>
+        <form action="ProductInformatie?command=verwijderBevestiging&naam=${naam}&voornaam=${voornaam}&productnaam=${productnaam}&prijs=${prijs}" method="POST">
+            <input id="zeker" type="submit" value="Zeker" name="bevestiging">
+            <input id="tochniet" type="submit" value="Toch niet" name="geenbevestiging">
         </form>
     </article>
 </main>

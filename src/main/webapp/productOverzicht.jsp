@@ -42,7 +42,7 @@
                 <td>${product.voornaam}</td>
                 <td>${product.productnaam}</td>
                 <td>${product.prijs}</td>
-                <td><a href="ProductInformatie?command=verwijder&naam=${product.naam}&voornaam=${product.voornaam}&productnaam=${product.productnaam}">Verwijder</a></td>
+                <td><a id="verwijder" href="ProductInformatie?command=verwijder&naam=${product.naam}&voornaam=${product.voornaam}&productnaam=${product.productnaam}&prijs=${product.prijs}">Verwijder</a></td>
             </tr>
                 </c:forEach>
         </table>
