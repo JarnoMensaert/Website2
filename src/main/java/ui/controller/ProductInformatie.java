@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 
 @WebServlet("/ProductInformatie")
 public class ProductInformatie extends HttpServlet {
@@ -63,12 +64,30 @@ public class ProductInformatie extends HttpServlet {
     }
 
     private String voegToe(HttpServletRequest request, HttpServletResponse response) {
-        String naam = request.getParameter("naam");
-        String voornaam = request.getParameter("voornaam");
-        String productnaam = request.getParameter("productnaam");
-        String prijsString = request.getParameter("prijs");
+        ArrayList<String> errors = new ArrayList<String>();
 
-        if (naam != null && voornaam != null && productnaam != null) {
+        Product product = new Product();
+        setNaam(product, request, errors);
+        setVoornaam(product, request, errors);
+        setProductnaam(product, request, errors);
+        setPrijs(product, request, errors);
+
+        if (errors.size() == 0) {
+            try {
+                db.voegToe(product);
+                return overzicht(request, response);
+            }
+            catch (IllegalArgumentException exc) {
+                request.setAttribute("error", exc.getMessage());
+                return "productForm.jsp";
+            }
+        }
+        else {
+            request.setAttribute("errors", errors);
+            return "productForm.jsp";
+        }
+
+        /*if (naam != null && voornaam != null && productnaam != null) {
             double prijs = Double.parseDouble(prijsString);
             Product product = new Product(naam, voornaam, productnaam, prijs);
             db.voegToe(product);
@@ -76,7 +95,7 @@ public class ProductInformatie extends HttpServlet {
         }
         else {
             return "productForm.jsp";
-        }
+        }*/
     }
 
     private String verwijder(HttpServletRequest request, HttpServletResponse response) {
@@ -109,7 +128,34 @@ public class ProductInformatie extends HttpServlet {
     }
 
     private String zoekProduct(HttpServletRequest request, HttpServletResponse response) {
-        String naam = request.getParameter("naam");
+        ArrayList<String> errors = new ArrayList<String>();
+
+        Product product = new Product();
+        setNaam(product, request, errors);
+        setVoornaam(product, request, errors);
+        setProductnaam(product, request, errors);
+        setPrijs(product, request, errors);
+
+        if (errors.size() == 0) {
+            try {
+                if (db.vindProduct(product) != null) {
+                    return "gevonden.jsp";
+                }
+                else {
+                    return "nietGevonden.jsp";
+                }
+            }
+            catch (IllegalArgumentException exc) {
+                request.setAttribute("error", exc.getMessage());
+                return "zoekForm.jsp";
+            }
+        }
+        else {
+            request.setAttribute("errors", errors);
+            return "zoekForm.jsp";
+        }
+
+        /*String naam = request.getParameter("naam");
         String voornaam = request.getParameter("voornaam");
         String productnaam = request.getParameter("productnaam");
         String prijsString = request.getParameter("prijs");
@@ -130,6 +176,63 @@ public class ProductInformatie extends HttpServlet {
                 request.setAttribute("prijs", prijs);
                 return "gevonden.jsp";
             }
+        }*/
+    }
+
+    public void setNaam(Product product, HttpServletRequest request, ArrayList<String> errors) {
+        String naam = request.getParameter("naam");
+        try {
+            product.setNaam(naam);
+            request.setAttribute("naamClass", "has-succes");
+            request.setAttribute("naamPreviousValue", naam);
+        }
+        catch (IllegalArgumentException exc) {
+            errors.add(exc.getMessage());
+            request.setAttribute("naamClass", "has-error");
+        }
+    }
+
+    public void setVoornaam(Product product, HttpServletRequest request, ArrayList<String> errors) {
+        String voornaam = request.getParameter("voornaam");
+        try {
+            product.setVoornaam(voornaam);
+            request.setAttribute("voornaamClass", "has-succes");
+            request.setAttribute("voornaamPreviousValue", voornaam);
+        }
+        catch (IllegalArgumentException exc) {
+            errors.add(exc.getMessage());
+            request.setAttribute("voornaamClass", "has-error");
+        }
+    }
+
+    public void setProductnaam(Product product, HttpServletRequest request, ArrayList<String> errors) {
+        String productnaam = request.getParameter("productnaam");
+        try {
+            product.setProductnaam(productnaam);
+            request.setAttribute("productnaamClass", "has-succes");
+            request.setAttribute("productnaamPreviousValue", productnaam);
+        }
+        catch (IllegalArgumentException exc) {
+            errors.add(exc.getMessage());
+            request.setAttribute("productnaamClass", "has-error");
+        }
+    }
+
+    private void setPrijs(Product product, HttpServletRequest request, ArrayList<String> errors) {
+        double prijs;
+        if(request.getParameter("prijs").isBlank()){
+            prijs = -1;
+        }else{
+            prijs = Double.parseDouble(request.getParameter("prijs"));
+        }
+        try {
+            product.setPrijs(prijs);
+            request.setAttribute("prijsClass", "has-success");
+            request.setAttribute("prijsPreviousValue", prijs);
+        }
+        catch (IllegalArgumentException exc) {
+            errors.add(exc.getMessage());
+            request.setAttribute("prijsClass", "has-error");
         }
     }
 }

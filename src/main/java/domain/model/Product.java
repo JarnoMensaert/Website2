@@ -4,6 +4,9 @@ public class Product {
     private String naam, voornaam, productnaam;
     private double prijs;
 
+    public Product(){
+    }
+
     public Product(String naam, String voornaam, String productnaam, double prijs) {
         setNaam(naam);
         setVoornaam(voornaam);
@@ -20,7 +23,7 @@ public class Product {
     }
 
     public void setNaam(String naam) {
-        if (naam.isBlank()) throw new IllegalArgumentException();
+        if (naam == null || naam.isBlank()) throw new IllegalArgumentException("Vul een naam in");
         this.naam = naam;
     }
 
@@ -29,7 +32,7 @@ public class Product {
     }
 
     public void setVoornaam(String voornaam) {
-        if (voornaam.isBlank()) throw new IllegalArgumentException();
+        if (voornaam == null || voornaam.isBlank()) throw new IllegalArgumentException("Vul een voornaam in");
         this.voornaam = voornaam;
     }
 
@@ -38,7 +41,7 @@ public class Product {
     }
 
     public void setProductnaam(String productnaam) {
-        if (productnaam.isBlank()) throw new IllegalArgumentException();
+        if (productnaam == null || productnaam.isBlank()) throw new IllegalArgumentException("Vul een productnaam in");
         this.productnaam = productnaam;
     }
 
@@ -47,7 +50,7 @@ public class Product {
     }
 
     public void setPrijs(double prijs) {
-        if (prijs < 0) throw new IllegalArgumentException();
+        if (prijs <= 0) throw new IllegalArgumentException("Prijs moet groter dan 0 zijn");
         this.prijs = prijs;
     }
 

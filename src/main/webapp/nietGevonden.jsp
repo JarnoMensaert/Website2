@@ -20,7 +20,7 @@
     </jsp:include>
 
     <main id="container1">
-        <h1>Niet gevonden...</h1>
+        <h1 id="nietgevonden">Niet gevonden...</h1>
         <p id="welkom">Spijtig genoeg is het product dat u zocht niet in de aanbieding</p>
     </main>
 

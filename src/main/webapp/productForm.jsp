@@ -1,10 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: mensa
-  Date: 16/03/2021
-  Time: 18:05
-  To change this template use File | Settings | File Templates.
---%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -20,30 +14,35 @@
     </jsp:include>
 
     <main id="container1">
+        <c:if test="${not empty errors}">
+            <div class="alert alert-danger">
+                <ul>
+                    <c:forEach items="${errors}" var="error">
+                        <li>${error}</li><br>
+                    </c:forEach>
+                </ul>
+            </div>
+        </c:if>
         <h1 id="verkoopproduct">Verkoop een product</h1>
-        <form method="post" action="ProductInformatie?command=voegToe">
+        <form method="post" action="ProductInformatie?command=voegToe" novalidate>
             <p id="producttekoop">
                 Product informatie
             </p>
-            <p class="idform">
-                <label for="naam">
-                    Naam: <input id="naam" name="naam" type="text" value="">
-                </label>
+            <p class="form-group ${naamClass}">
+                <label class="control-label" for="naam">Naam: </label><input
+                    id="naam" name="naam" type="text" value="${naamPreviousValue}" required>
             </p>
-            <p class="idform">
-                <label for="voornaam">
-                    Voornaam: <input id="voornaam" name="voornaam" type="text" value="">
-                </label>
+            <p class="form-group ${voornaamClass}">
+                <label class="control-label" for="voornaam">Voornaam: </label> <input
+                    id="voornaam" name="voornaam" type="text" value="${voornaamPreviousValue}">
             </p>
-            <p class="idform">
-                <label for="productnaam">
-                    Productnaam: <input id="productnaam" name="productnaam" type="text" value="">
-                </label>
+            <p class="form-group ${productnaamClass}">
+                <label class="control-label" for="productnaam">Productnaam: </label><input
+                    id="productnaam" name="productnaam" type="text" value="${productnaamPreviousValue}">
             </p>
-            <p class="idform">
-                <label for="prijs">
-                    Prijs: <input id="prijs" name="prijs" type="text" value="">
-                </label>
+            <p class="form-group ${prijsClass}">
+                <label class="control-label" for="prijs">Prijs: </label><input
+                    id="prijs" name="prijs" type="text" value="${prijsPreviousValue}">
             </p>
             <p class="idform">
                 <label for="bewaar">

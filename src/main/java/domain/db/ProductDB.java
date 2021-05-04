@@ -9,12 +9,14 @@ public class ProductDB {
 
     public ProductDB() {
         producten = new ArrayList<>();
-        Product product1 = new Product("Mensaert", "Jarno", "muis", 14.00);
-        Product product2 = new Product("Mensaert", "Mathias", "toetsenbord", 45.00);
+        /*Product product1 = new Product("Mensaert", "Jarno", "muis", 14.00);
+        Product product2 = new Product("Mensaert", "Mathias", "toetsenbord", 45.00);*/
     }
 
     public void voegToe(Product product) {
-        if (producten.contains(product)) throw new IllegalArgumentException("Je mag geen 2 keer hetzelfde product toevoegen");
+        for (Product p : producten) {
+            if (p.getProductnaam().equalsIgnoreCase(product.getProductnaam())) throw new IllegalArgumentException("Er mogen geen 2 producten met dezelfde naam verkocht worden");
+        }
         producten.add(product);
     }
 
@@ -35,6 +37,15 @@ public class ProductDB {
     public Product vindProduct (String naam, String voornaam, String productnaam, double prijs) {
         for (Product product : producten) {
             if (product.getNaam().equals(naam) && product.getVoornaam().equals(voornaam) && product.getProductnaam().equals(productnaam) && product.getPrijs() == prijs) {
+                return product;
+            }
+        }
+        return null;
+    }
+
+    public Product vindProduct (Product product) {
+        for (Product p : producten) {
+            if (product.getNaam().equals(p.getNaam()) && product.getVoornaam().equals(p.getVoornaam()) && product.getProductnaam().equals(p.getProductnaam()) && product.getPrijs() == p.getPrijs()) {
                 return product;
             }
         }

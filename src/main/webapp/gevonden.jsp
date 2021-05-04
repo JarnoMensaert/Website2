@@ -16,7 +16,7 @@
     <main id="container1">
         <h1 id="gevonden">Gevonden!</h1>
         <p id="boodschap">
-            Je vroeg naar volgende gegevens: ${productnaam} ${prijs} euro
+            Je vroeg naar volgende gegevens: ${param.productnaam} ${param.prijs} euro
         </p>
     </main>
 

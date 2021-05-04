@@ -46,15 +46,55 @@ public class ProductVoegToeTest {
         assertEquals("Gamingproduct toevoegen", driver.getTitle());
     }
 
-    /*@Test void test_Als_product_toegevoeg_wordt_dat_al_bestaan_Dan_terug_naar_productform() {
+    @Test
+    public void test_Alle_velden_ingevuld_correct_behalve_naam_returned_foutmelding_en_laat_juiste_values_bij_toevoeging() {
+        driver.get(url + "productForm.jsp");
+        voegProductToe("","Jarno", "muis", 14.00);
+        assertEquals("Gamingproduct toevoegen", driver.getTitle());
+        assertEquals("Vul een naam in", driver.findElement(By.xpath("/html/body/main/div/ul/li")).getText());
+        assertEquals("Jarno", driver.findElement(By.id("voornaam")).getAttribute("value"));
+        assertEquals("muis", driver.findElement(By.id("productnaam")).getAttribute("value"));
+        assertEquals("14.0", driver.findElement(By.id("prijs")).getAttribute("value"));
+    }
 
-    }*/
+    @Test
+    public void test_Alle_velden_ingevuld_correct_behalve_voornaam_returned_foutmelding_en_laat_juiste_values_bij_toevoeging() {
+        driver.get(url + "productForm.jsp");
+        voegProductToe("Mensaert","", "muis", 14.00);
+        assertEquals("Gamingproduct toevoegen", driver.getTitle());
+        assertEquals("Vul een voornaam in", driver.findElement(By.xpath("/html/body/main/div/ul/li")).getText());
+        assertEquals("Mensaert", driver.findElement(By.id("naam")).getAttribute("value"));
+        assertEquals("muis", driver.findElement(By.id("productnaam")).getAttribute("value"));
+        assertEquals("14.0", driver.findElement(By.id("prijs")).getAttribute("value"));
+    }
+
+    @Test
+    public void test_Alle_velden_ingevuld_correct_behalve_productnaam_returned_foutmelding_en_laat_juiste_values_bij_toevoeging() {
+        driver.get(url + "productForm.jsp");
+        voegProductToe("Mensaert","Jarno", "", 14.00);
+        assertEquals("Gamingproduct toevoegen", driver.getTitle());
+        assertEquals("Vul een productnaam in", driver.findElement(By.xpath("/html/body/main/div/ul/li")).getText());
+        assertEquals("Jarno", driver.findElement(By.id("voornaam")).getAttribute("value"));
+        assertEquals("Mensaert", driver.findElement(By.id("naam")).getAttribute("value"));
+        assertEquals("14.0", driver.findElement(By.id("prijs")).getAttribute("value"));
+    }
+
+    @Test
+    public void test_Alle_velden_ingevuld_correct_behalve_prijs_returned_foutmelding_en_laat_juiste_values_bij_toevoeging() {
+        driver.get(url + "productForm.jsp");
+        voegProductToe("Mensaert","Jarno", "muis", 0);
+        assertEquals("Gamingproduct toevoegen", driver.getTitle());
+        assertEquals("Prijs moet groter dan 0 zijn", driver.findElement(By.xpath("/html/body/main/div/ul/li")).getText());
+        assertEquals("Jarno", driver.findElement(By.id("voornaam")).getAttribute("value"));
+        assertEquals("Mensaert", driver.findElement(By.id("naam")).getAttribute("value"));
+        assertEquals("muis", driver.findElement(By.id("productnaam")).getAttribute("value"));
+    }
 
     private void voegProductToe(String naam, String voornaam, String productnaam, double prijs) {
-        driver.findElement(By.id("naam")).sendKeys(naam);
-        driver.findElement(By.id("voornaam")).sendKeys(voornaam);
-        driver.findElement(By.id("productnaam")).sendKeys(productnaam);
-        driver.findElement(By.id("prijs")).sendKeys(prijs + "");
+            driver.findElement(By.id("naam")).sendKeys(naam);
+            driver.findElement(By.id("voornaam")).sendKeys(voornaam);
+            driver.findElement(By.id("productnaam")).sendKeys(productnaam);
+            driver.findElement(By.id("prijs")).sendKeys(prijs + "");
         driver.findElement(By.id("bewaar")).click();
     }
 
