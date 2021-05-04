@@ -15,24 +15,14 @@
 </head>
 <body>
 
-    <header>
-        <div>
-            <h1 id="titelheader">Gamingproducten verkoop</h1>
-            <nav>
-                <ul>
-                    <li><a href="index.jsp">Home</a></li>
-                    <li><a href="zoekForm.jsp">Zoek een product</a></li>
-                    <li><a href="productForm.jsp">Verkoop een product</a></li>
-                    <li><a href="ProductInformatie?command=overzicht">Producten te koop</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+    <jsp:include page="header.jsp">
+        <jsp:param name="actual" value=""/>
+    </jsp:include>
 
     <main id="container1">
         <h1>Gevonden!</h1>
         <p id="boodschap">
-            Je vroeg naar volgende gegevens: <%= request.getParameter("productnaam") %> <%= request.getParameter("prijs") %>
+            Je vroeg naar volgende gegevens: ${productnaam} ${prijs} euro
         </p>
     </main>
 

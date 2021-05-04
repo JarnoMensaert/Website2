@@ -14,19 +14,11 @@
     <title>Gamingproducten verkoop</title>
 </head>
 <body>
-    <header>
-        <div>
-            <h1 id="titelheader">Gamingproducten verkoop</h1>
-            <nav>
-                <ul>
-                    <li><a href="index.jsp">Home</a></li>
-                    <li><a href="zoekForm.jsp">Zoek een product</a></li>
-                    <li><a href="productForm.jsp">Verkoop een product</a></li>
-                    <li><a href="ProductInformatie?command=overzicht">Producten te koop</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+
+    <jsp:include page="header.jsp">
+        <jsp:param name="actual" value="home"/>
+    </jsp:include>
+
     <main id="container1">
         <h1>Wat kan je vinden?</h1>
         <p id="welkom">Welkom, op deze website kan je tweedehands gamingproducten kopen en verkopen aan zeer goede prijzen</p>

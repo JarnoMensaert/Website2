@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="java.util.Collection" %>
 <%@ page import="domain.model.Product" %><%--
   Created by IntelliJ IDEA.
@@ -15,26 +16,16 @@
     <title>Overzicht producten</title>
 </head>
 <body>
-    <header>
-        <div>
-            <h1 id="titelheader">Gamingproducten toevoegen</h1>
-            <nav>
-                <ul>
-                    <li><a href="index.jsp">Home</a></li>
-                    <li><a href="zoekForm.jsp">Zoek een product</a></li>
-                    <li><a href="productForm.jsp">Verkoop een product</a></li>
-                    <li><a href="ProductInformatie?command=overzicht">Producten te koop</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+
+    <jsp:include page="header.jsp">
+        <jsp:param name="actual" value="overzicht"/>
+    </jsp:include>
 
     <main id="container1">
         <h1 id="overzichttekoop">Producten te koop</h1>
-        <%
-            Collection<Product> producten = (Collection<Product>) request.getAttribute("producten");
-            if (producten != null) {
-        %>
+        <c:choose>
+            <c:when test="${producten != null}">
+
         <table id="overzicht">
             <tr>
                 <th>Naam</th>
@@ -44,28 +35,24 @@
                 <th>Verwijder</th>
             </tr>
 
-            <%
-                for (Product product : producten) {
-            %>
+            <c:forEach var="product" items="${producten}">
 
             <tr>
-                <td><%= product.getNaam() %></td>
-                <td><%= product.getVoornaam() %></td>
-                <td><%= product.getProductnaam() %></td>
-                <td><%= product.getPrijs() %></td>
-                <td><a href="ProductInformatie?command=verwijder&naam=<%= product.getNaam() %>&voornaam=<%= product.getVoornaam() %>&productnaam=<%= product.getProductnaam() %>">Verwijder</a></td>
+                <td>${product.naam}</td>
+                <td>${product.voornaam}</td>
+                <td>${product.productnaam}</td>
+                <td>${product.prijs}</td>
+                <td><a href="ProductInformatie?command=verwijder&naam=${product.naam}&voornaam=${product.voornaam}&productnaam=${product.productnaam}">Verwijder</a></td>
             </tr>
-            <%
-                }
-            %>
+                </c:forEach>
         </table>
-            <%
-                } else {
-            %>
-        <p>Er staan geen producten te koop.</p>
-        <%
-            }
-        %>
+            </c:when>
+
+            <c:otherwise>
+                <p>Er staan geen producten te koop.</p>
+            </c:otherwise>
+        </c:choose>
+
     </main>
 </body>
 </html>

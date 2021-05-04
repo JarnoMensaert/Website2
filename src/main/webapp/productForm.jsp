@@ -14,19 +14,10 @@
     <title>Gamingproduct toevoegen</title>
 </head>
 <body>
-    <header>
-        <div>
-            <h1 id="titelheader">Gamingproducten toevoegen</h1>
-            <nav>
-                <ul>
-                    <li><a href="index.jsp">Home</a></li>
-                    <li><a href="zoekForm.jsp">Zoek een product</a></li>
-                    <li><a href="productForm.jsp">Verkoop een product</a></li>
-                    <li><a href="ProductInformatie?command=overzicht">Producten te koop</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+
+    <jsp:include page="header.jsp">
+        <jsp:param name="actual" value="voegToe"/>
+    </jsp:include>
 
     <main id="container1">
         <h1 id="verkoopproduct">Verkoop een product</h1>

@@ -81,6 +81,9 @@ public class ProductInformatie extends HttpServlet {
         String voornaam = request.getParameter("voornaam");
         String productnaam = request.getParameter("productnaam");
 
+        request.setAttribute("naam", naam);
+        request.setAttribute("voornaam", voornaam);
+        request.setAttribute("productnaam", productnaam);
         db.verwijder(naam, voornaam, productnaam);
         return overzicht(request, response);
     }
