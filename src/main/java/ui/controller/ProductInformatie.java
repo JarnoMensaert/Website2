@@ -55,6 +55,12 @@ public class ProductInformatie extends HttpServlet {
             case "showNederlands" :
                 destination = switchLanguage(request, response, "NL");
                 break;
+            case "zoek" :
+                destination = zoek(request, response);
+                break;
+            case "verkoop" :
+                destination = verkoop(request, response);
+                break;
             default :
                 destination = home(request, response);
         }
@@ -72,7 +78,21 @@ public class ProductInformatie extends HttpServlet {
 
     private String overzicht(HttpServletRequest request, HttpServletResponse response) {
         request.setAttribute("producten", db.getProducten());
-        return "productOverzicht.jsp";
+        Cookie cookie = getCookieWithKey(request, "language");
+        if (cookie == null || cookie.getValue().equals("NL")) {
+            return "productOverzicht.jsp";
+        } else {
+            return "productOverzichtEN.jsp";
+        }
+    }
+
+    private String verkoop(HttpServletRequest request, HttpServletResponse response) {
+        Cookie cookie = getCookieWithKey(request, "language");
+        if (cookie == null || cookie.getValue().equals("NL")) {
+            return "productForm.jsp";
+        } else {
+            return "productFormEN.jsp";
+        }
     }
 
     private String voegToe(HttpServletRequest request, HttpServletResponse response) {
@@ -83,6 +103,7 @@ public class ProductInformatie extends HttpServlet {
         setVoornaam(product, request, errors);
         setProductnaam(product, request, errors);
         setPrijs(product, request, errors);
+
 
         if (errors.size() == 0) {
             try {
@@ -121,7 +142,12 @@ public class ProductInformatie extends HttpServlet {
         request.setAttribute("voornaam", voornaam);
         request.setAttribute("productnaam", productnaam);
         request.setAttribute("prijs", prijs);
-        return "verwijderBevestiging.jsp";
+        Cookie cookie = getCookieWithKey(request, "language");
+        if (cookie == null || cookie.getValue().equals("NL")) {
+            return "verwijderBevestiging.jsp";
+        } else {
+            return "verwijderBevestigingEN.jsp";
+        }
     }
 
     private String verwijderBevestiging(HttpServletRequest request, HttpServletResponse response) {
@@ -139,6 +165,15 @@ public class ProductInformatie extends HttpServlet {
         }
     }
 
+    private String zoek(HttpServletRequest request, HttpServletResponse response) {
+        Cookie cookie = getCookieWithKey(request, "language");
+        if (cookie == null || cookie.getValue().equals("NL")) {
+            return "zoekForm.jsp";
+        } else {
+            return "zoekFormEN.jsp";
+        }
+    }
+
     private String zoekProduct(HttpServletRequest request, HttpServletResponse response) {
         ArrayList<String> errors = new ArrayList<String>();
 
@@ -148,23 +183,46 @@ public class ProductInformatie extends HttpServlet {
         setProductnaam(product, request, errors);
         setPrijs(product, request, errors);
 
-        if (errors.size() == 0) {
-            try {
-                if (db.vindProduct(product) != null) {
-                    return "gevonden.jsp";
+        Cookie cookie = getCookieWithKey(request, "language");
+        if (cookie == null || cookie.getValue().equals("NL")) {
+            if (errors.size() == 0) {
+                try {
+                    if (db.vindProduct(product) != null) {
+                        return "gevonden.jsp";
+                    }
+                    else {
+                        return "nietGevonden.jsp";
+                    }
                 }
-                else {
-                    return "nietGevonden.jsp";
+                catch (IllegalArgumentException exc) {
+                    request.setAttribute("error", exc.getMessage());
+                    return "zoekForm.jsp";
                 }
             }
-            catch (IllegalArgumentException exc) {
-                request.setAttribute("error", exc.getMessage());
+            else {
+                request.setAttribute("errors", errors);
                 return "zoekForm.jsp";
             }
         }
         else {
-            request.setAttribute("errors", errors);
-            return "zoekForm.jsp";
+            if (errors.size() == 0) {
+                try {
+                    if (db.vindProduct(product) != null) {
+                        return "gevondenEN.jsp";
+                    }
+                    else {
+                        return "nietGevondenEN.jsp";
+                    }
+                }
+                catch (IllegalArgumentException exc) {
+                    request.setAttribute("error", exc.getMessage());
+                    return "zoekFormEN.jsp";
+                }
+            }
+            else {
+                request.setAttribute("errors", errors);
+                return "zoekFormEN.jsp";
+            }
         }
 
         /*String naam = request.getParameter("naam");
