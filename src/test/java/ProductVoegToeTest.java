@@ -95,7 +95,7 @@ public class ProductVoegToeTest {
             driver.findElement(By.id("voornaam")).sendKeys(voornaam);
             driver.findElement(By.id("productnaam")).sendKeys(productnaam);
             driver.findElement(By.id("prijs")).sendKeys(prijs + "");
-        driver.findElement(By.id("bewaar")).click();
+            driver.findElement(By.id("bewaar")).click();
     }
 
     private boolean paginaBevatTdMetText(List<WebElement> tds, String tekst) {

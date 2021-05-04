@@ -5,6 +5,7 @@ import domain.model.Product;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -48,6 +49,12 @@ public class ProductInformatie extends HttpServlet {
             case "zoekProduct" :
                 destination = zoekProduct(request, response);
                 break;
+            case "showEnglish" :
+                destination = switchLanguage(request, response, "EN");
+                break;
+            case "showNederlands" :
+                destination = switchLanguage(request, response, "NL");
+                break;
             default :
                 destination = home(request, response);
         }
@@ -55,7 +62,12 @@ public class ProductInformatie extends HttpServlet {
     }
 
     private String home(HttpServletRequest request, HttpServletResponse response) {
-        return "index.jsp";
+        Cookie cookie = getCookieWithKey(request, "language");
+        if (cookie == null || cookie.getValue().equals("NL")) {
+            return "index.jsp";
+        } else {
+            return "indexEN.jsp";
+        }
     }
 
     private String overzicht(HttpServletRequest request, HttpServletResponse response) {
@@ -179,6 +191,22 @@ public class ProductInformatie extends HttpServlet {
         }*/
     }
 
+    public String switchLanguage(HttpServletRequest request, HttpServletResponse response, String language) {
+        String destination;
+
+        Cookie c = new Cookie("language", language);
+        response.addCookie(c);
+
+        if (language == null || language.equals("NL")) {
+            request.setAttribute("requestCookie", "NL");
+            destination = "index.jsp";
+        } else {
+            request.setAttribute("requestCookie", "EN");
+            destination = "indexEN.jsp";
+        }
+        return destination;
+    }
+
     public void setNaam(Product product, HttpServletRequest request, ArrayList<String> errors) {
         String naam = request.getParameter("naam");
         try {
@@ -234,5 +262,17 @@ public class ProductInformatie extends HttpServlet {
             errors.add(exc.getMessage());
             request.setAttribute("prijsClass", "has-error");
         }
+    }
+
+    private Cookie getCookieWithKey(HttpServletRequest request, String key) {
+        Cookie[] cookies = request.getCookies();
+        if (cookies == null)
+            return null;
+        for (Cookie cookie : cookies
+        ) {
+            if (cookie.getName().equals(key))
+                return cookie;
+        }
+        return null;
     }
 }

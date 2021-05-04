@@ -54,7 +54,7 @@ public class Product {
         this.prijs = prijs;
     }
 
-    public String toString(String naam, String voornaam, String productnaam, double prijs) {
+    public String toString() {
         return getNaam() + " " + getVoornaam() + " " + getProductnaam() + " " + getPrijs() + " euro";
     }
 }

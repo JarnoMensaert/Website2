@@ -23,5 +23,8 @@
         <h1>Wat kan je vinden?</h1>
         <p id="welkom">Welkom, op deze website kan je tweedehands gamingproducten kopen en verkopen aan zeer goede prijzen</p>
     </main>
+
+    <p><a href="ProductInformatie?command=showEnglish">EN</a></p>
+
 </body>
 </html>
