@@ -18,7 +18,7 @@
         <div class="alert alert-danger">
             <ul>
                 <c:forEach items="${errors}" var="error">
-                    <li>${error}</li>
+                    <li>${error}</li><br>
                 </c:forEach>
             </ul>
         </div>

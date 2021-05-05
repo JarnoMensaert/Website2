@@ -104,27 +104,52 @@ public class ProductInformatie extends HttpServlet {
     private String voegToe(HttpServletRequest request, HttpServletResponse response) {
         ArrayList<String> errors = new ArrayList<String>();
 
-        Product product = new Product();
-        setNaam(product, request, errors);
-        setVoornaam(product, request, errors);
-        setProductnaam(product, request, errors);
-        setPrijs(product, request, errors);
-
-
-        if (errors.size() == 0) {
-            try {
-                db.voegToe(product);
-                return overzicht(request, response);
+        Cookie cookie = getCookieWithKey(request, "language");
+        // Als de value van de cookie NL is, gaan we de setter methodes gebruiken die de error berichten in het nederlands geven
+        if (cookie == null || cookie.getValue().equals("NL")) {
+            Product product = new Product();
+            setNaam(product, request, errors);
+            setVoornaam(product, request, errors);
+            setProductnaam(product, request, errors);
+            setPrijs(product, request, errors);
+            if (errors.size() == 0) {
+                try {
+                    db.voegToe(product);
+                    return overzicht(request, response);
+                }
+                catch (IllegalArgumentException exc) {
+                    request.setAttribute("error", exc.getMessage());
+                    return "productForm.jsp";
+                }
             }
-            catch (IllegalArgumentException exc) {
-                request.setAttribute("error", exc.getMessage());
+            else {
+                request.setAttribute("errors", errors);
                 return "productForm.jsp";
             }
         }
         else {
-            request.setAttribute("errors", errors);
-            return "productForm.jsp";
+            // Als de value van de cookie EN is, gaan we de setter methodes gebruiken die de error berichten in het engels geven
+            Product product = new Product();
+            setNaamEN(product, request, errors);
+            setVoornaamEN(product, request, errors);
+            setProductnaamEN(product, request, errors);
+            setPrijsEN(product, request, errors);
+            if (errors.size() == 0) {
+                try {
+                    db.voegToe(product);
+                    return overzicht(request, response);
+                }
+                catch (IllegalArgumentException exc) {
+                    request.setAttribute("error", exc.getMessage());
+                    return "productFormEN.jsp";
+                }
+            }
+            else {
+                request.setAttribute("errors", errors);
+                return "productFormEN.jsp";
+            }
         }
+
 
         /*if (naam != null && voornaam != null && productnaam != null) {
             double prijs = Double.parseDouble(prijsString);
@@ -185,15 +210,14 @@ public class ProductInformatie extends HttpServlet {
     private String zoekProduct(HttpServletRequest request, HttpServletResponse response) {
         ArrayList<String> errors = new ArrayList<String>();
 
-        Product product = new Product();
-        setNaam(product, request, errors);
-        setVoornaam(product, request, errors);
-        setProductnaam(product, request, errors);
-        setPrijs(product, request, errors);
-
         Cookie cookie = getCookieWithKey(request, "language");
-        // Zelfde uitleg als in home methode
+        // Als de value van de cookie NL is, gaan we de setter methodes gebruiken die de error berichten in het nederlands geven
         if (cookie == null || cookie.getValue().equals("NL")) {
+            Product product = new Product();
+            setNaam(product, request, errors);
+            setVoornaam(product, request, errors);
+            setProductnaam(product, request, errors);
+            setPrijs(product, request, errors);
             if (errors.size() == 0) {
                 try {
                     if (db.vindProduct(product) != null) {
@@ -214,6 +238,12 @@ public class ProductInformatie extends HttpServlet {
             }
         }
         else {
+            // Als de value van de cookie EN is, gaan we de setter methodes gebruiken die de error berichten in het engels geven
+            Product product = new Product();
+            setNaamEN(product, request, errors);
+            setVoornaamEN(product, request, errors);
+            setProductnaamEN(product, request, errors);
+            setPrijsEN(product, request, errors);
             if (errors.size() == 0) {
                 try {
                     if (db.vindProduct(product) != null) {
@@ -331,6 +361,75 @@ public class ProductInformatie extends HttpServlet {
         }
         catch (IllegalArgumentException exc) {
             errors.add(exc.getMessage());
+            request.setAttribute("prijsClass", "has-error");
+        }
+    }
+
+    public void setNaamEN(Product product, HttpServletRequest request, ArrayList<String> errors) {
+        // Methode die error berichten van NL naar EN vertaalt
+        String naam = request.getParameter("naam");
+        try {
+            product.setNaam(naam);
+            request.setAttribute("naamClass", "has-succes");
+            request.setAttribute("naamPreviousValue", naam);
+        }
+        catch (IllegalArgumentException exc) {
+            if (exc.getMessage().equals("Vul een naam in")) {
+                errors.add("Put in a last name");
+            }
+            request.setAttribute("naamClass", "has-error");
+        }
+    }
+
+    public void setVoornaamEN(Product product, HttpServletRequest request, ArrayList<String> errors) {
+        // Methode die error berichten van NL naar EN vertaalt
+        String voornaam = request.getParameter("voornaam");
+        try {
+            product.setVoornaam(voornaam);
+            request.setAttribute("voornaamClass", "has-succes");
+            request.setAttribute("voornaamPreviousValue", voornaam);
+        }
+        catch (IllegalArgumentException exc) {
+            if (exc.getMessage().equals("Vul een voornaam in")) {
+                errors.add("Put in a first name");
+            }
+            request.setAttribute("voornaamClass", "has-error");
+        }
+    }
+
+    public void setProductnaamEN(Product product, HttpServletRequest request, ArrayList<String> errors) {
+        // Methode die error berichten van NL naar EN vertaalt
+        String productnaam = request.getParameter("productnaam");
+        try {
+            product.setProductnaam(productnaam);
+            request.setAttribute("productnaamClass", "has-succes");
+            request.setAttribute("productnaamPreviousValue", productnaam);
+        }
+        catch (IllegalArgumentException exc) {
+            if (exc.getMessage().equals("Vul een productnaam in")) {
+                errors.add("Put in a product name");
+            }
+            request.setAttribute("productnaamClass", "has-error");
+        }
+    }
+
+    private void setPrijsEN(Product product, HttpServletRequest request, ArrayList<String> errors) {
+        // Methode die error berichten van NL naar EN vertaalt
+        double prijs;
+        if(request.getParameter("prijs").isBlank()){
+            prijs = -1;
+        }else{
+            prijs = Double.parseDouble(request.getParameter("prijs"));
+        }
+        try {
+            product.setPrijs(prijs);
+            request.setAttribute("prijsClass", "has-success");
+            request.setAttribute("prijsPreviousValue", prijs);
+        }
+        catch (IllegalArgumentException exc) {
+            if (exc.getMessage().equals("Prijs moet groter dan 0 zijn")) {
+                errors.add("Price needs to be greater than 0");
+            }
             request.setAttribute("prijsClass", "has-error");
         }
     }

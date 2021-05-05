@@ -21,7 +21,7 @@
 
 <main id="container1">
     <h1 id="nietgevonden">Not found...</h1>
-    <p id="welkom">Unfortunately whe did not find the product you were asking for.</p>
+    <p id="welkom">Unfortunately we did not find the product you were asking for.</p>
 </main>
 
 </body>
