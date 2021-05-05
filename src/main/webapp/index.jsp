@@ -25,6 +25,10 @@
     </main>
 
     <p><a href="ProductInformatie?command=showEnglish">EN</a></p>
+<%--
+Als er op deze link geclickt wordt, zal er in de url command=showEnglish staan.
+We navigeren dan naar de servlet met command=showEnglish
+--%>
 
 </body>
 </html>

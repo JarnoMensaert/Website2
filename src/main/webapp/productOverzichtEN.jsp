@@ -17,7 +17,7 @@
 </head>
 <body>
 
-<jsp:include page="header.jsp">
+<jsp:include page="headerEN.jsp">
     <jsp:param name="actual" value="overzicht"/>
 </jsp:include>
 

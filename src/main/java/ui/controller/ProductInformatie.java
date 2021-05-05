@@ -52,6 +52,7 @@ public class ProductInformatie extends HttpServlet {
             case "showEnglish" :
                 destination = switchLanguage(request, response, "EN");
                 break;
+                // We vinden de case showEnglish en gaan naar de methode switchLanguage en geven request, response en language mee
             case "showNederlands" :
                 destination = switchLanguage(request, response, "NL");
                 break;
@@ -69,7 +70,10 @@ public class ProductInformatie extends HttpServlet {
 
     private String home(HttpServletRequest request, HttpServletResponse response) {
         Cookie cookie = getCookieWithKey(request, "language");
+        // In de variable cookie, komt de cookie die we zoeken met gegeven request object en key (language)
         if (cookie == null || cookie.getValue().equals("NL")) {
+            // Als de waarde van de gevonden cookie leeg is of gelijk is aan NL, dan gaan we naar de nederlandse index.jsp
+            // De waarde van de cookie kan null zijn als de persoon nog niet van taal heeft verandert, dan wordt er niet beroep gedaan op de switchLanguage methode
             return "index.jsp";
         } else {
             return "indexEN.jsp";
@@ -79,6 +83,7 @@ public class ProductInformatie extends HttpServlet {
     private String overzicht(HttpServletRequest request, HttpServletResponse response) {
         request.setAttribute("producten", db.getProducten());
         Cookie cookie = getCookieWithKey(request, "language");
+        // Zelfde uitleg als in home methode
         if (cookie == null || cookie.getValue().equals("NL")) {
             return "productOverzicht.jsp";
         } else {
@@ -88,6 +93,7 @@ public class ProductInformatie extends HttpServlet {
 
     private String verkoop(HttpServletRequest request, HttpServletResponse response) {
         Cookie cookie = getCookieWithKey(request, "language");
+        // Zelfde uitleg als in home methode
         if (cookie == null || cookie.getValue().equals("NL")) {
             return "productForm.jsp";
         } else {
@@ -143,6 +149,7 @@ public class ProductInformatie extends HttpServlet {
         request.setAttribute("productnaam", productnaam);
         request.setAttribute("prijs", prijs);
         Cookie cookie = getCookieWithKey(request, "language");
+        // Zelfde uitleg als in home methode
         if (cookie == null || cookie.getValue().equals("NL")) {
             return "verwijderBevestiging.jsp";
         } else {
@@ -167,6 +174,7 @@ public class ProductInformatie extends HttpServlet {
 
     private String zoek(HttpServletRequest request, HttpServletResponse response) {
         Cookie cookie = getCookieWithKey(request, "language");
+        // Zelfde uitleg als in home methode
         if (cookie == null || cookie.getValue().equals("NL")) {
             return "zoekForm.jsp";
         } else {
@@ -184,6 +192,7 @@ public class ProductInformatie extends HttpServlet {
         setPrijs(product, request, errors);
 
         Cookie cookie = getCookieWithKey(request, "language");
+        // Zelfde uitleg als in home methode
         if (cookie == null || cookie.getValue().equals("NL")) {
             if (errors.size() == 0) {
                 try {
@@ -253,12 +262,16 @@ public class ProductInformatie extends HttpServlet {
         String destination;
 
         Cookie c = new Cookie("language", language);
+        // We maken een cookie aan met naam language en waarde language die we in de case hebben doorgegeven
         response.addCookie(c);
+        // We voegen de cookie die we net gemaakt hebben aan de HTTP-header
 
         if (language == null || language.equals("NL")) {
+            // Als de language NL is, dan gaan we naar de nederlandse index.jsp
             request.setAttribute("requestCookie", "NL");
             destination = "index.jsp";
         } else {
+            // Als de language EN is, dan gaan we naar de engelse indexEN.jsp
             request.setAttribute("requestCookie", "EN");
             destination = "indexEN.jsp";
         }
@@ -323,12 +336,15 @@ public class ProductInformatie extends HttpServlet {
     }
 
     private Cookie getCookieWithKey(HttpServletRequest request, String key) {
+        // We gaan de cookie uit de request header halen
         Cookie[] cookies = request.getCookies();
         if (cookies == null)
+            // Als er geen cookie is returnen we null
             return null;
         for (Cookie cookie : cookies
         ) {
             if (cookie.getName().equals(key))
+                // Als de naam van de cookie gelijk is aan de key, dan returnen we de cookie die we zochten
                 return cookie;
         }
         return null;
