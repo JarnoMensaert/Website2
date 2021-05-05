@@ -11,6 +11,8 @@
                     <a href="ProductInformatie?command=verkoop">Verkoop een product</a></li>
                 <li ${param.actual eq 'overzicht' ? "id = actual" : ""}>
                     <a href="ProductInformatie?command=overzicht">Producten te koop</a></li>
+                <li ${param.actual eq 'logboek' ? "id = actual" : ""}>
+                    <a href="ProductInformatie?command=logboekOverzicht">Bekijk het logboek</a></li>
             </ul>
         </nav>
     </div>

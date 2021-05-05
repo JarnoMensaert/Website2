@@ -5,10 +5,7 @@ import domain.model.Product;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -62,6 +59,12 @@ public class ProductInformatie extends HttpServlet {
             case "verkoop" :
                 destination = verkoop(request, response);
                 break;
+            case "logboek" :
+                destination = makeListLogboek(request, response);
+                break;
+            case "logboekOverzicht" :
+                destination = logboekOverzicht(request, response);
+                break;
             default :
                 destination = home(request, response);
         }
@@ -74,8 +77,20 @@ public class ProductInformatie extends HttpServlet {
         if (cookie == null || cookie.getValue().equals("NL")) {
             // Als de waarde van de gevonden cookie leeg is of gelijk is aan NL, dan gaan we naar de nederlandse index.jsp
             // De waarde van de cookie kan null zijn als de persoon nog niet van taal heeft verandert, dan wordt er niet beroep gedaan op de switchLanguage methode
+            if (db.getProducten() == null || db.getProducten().size() == 0) {
+                request.setAttribute("gemiddelde", null);
+            }
+            else {
+                request.setAttribute("gemiddelde", gemiddeldePrijs(db.getProducten()));
+            }
             return "index.jsp";
         } else {
+            if (db.getProducten() == null || db.getProducten().size() == 0) {
+                request.setAttribute("gemiddelde", null);
+            }
+            else {
+                request.setAttribute("gemiddelde", gemiddeldePrijs(db.getProducten()));
+            }
             return "indexEN.jsp";
         }
     }
@@ -221,6 +236,12 @@ public class ProductInformatie extends HttpServlet {
             if (errors.size() == 0) {
                 try {
                     if (db.vindProduct(product) != null) {
+                        HttpSession session = request.getSession();
+                        ArrayList<String> productenLogboek = (ArrayList<String>) session.getAttribute("productnamen");
+                        if (productenLogboek == null) {
+                            return "gevonden.jsp";
+                        }
+                        productenLogboek.add(product.getProductnaam());
                         return "gevonden.jsp";
                     }
                     else {
@@ -247,6 +268,12 @@ public class ProductInformatie extends HttpServlet {
             if (errors.size() == 0) {
                 try {
                     if (db.vindProduct(product) != null) {
+                        HttpSession session = request.getSession();
+                        ArrayList<String> productenLogboek = (ArrayList<String>) session.getAttribute("productnamen");
+                        if (productenLogboek == null) {
+                            return "gevondenEN.jsp";
+                        }
+                        productenLogboek.add(product.getProductnaam());
                         return "gevondenEN.jsp";
                     }
                     else {
@@ -306,6 +333,41 @@ public class ProductInformatie extends HttpServlet {
             destination = "indexEN.jsp";
         }
         return destination;
+    }
+
+    private String makeListLogboek(HttpServletRequest request, HttpServletResponse response) {
+        Cookie cookie = getCookieWithKey(request, "language");
+        // Zelfde uitleg als in home methode
+        if (cookie == null || cookie.getValue().equals("NL")) {
+            if (request.getParameter("bevestiging") == null) {
+                return "index.jsp";
+            }
+            else {
+                HttpSession session = request.getSession();
+                session.setAttribute("productnamen", new ArrayList<String>());
+                return "index.jsp";
+            }
+        }
+        else {
+            if (request.getParameter("bevestiging") == null) {
+                return "indexEN.jsp";
+            }
+            else {
+                HttpSession session = request.getSession();
+                session.setAttribute("productnamen", new ArrayList<String>());
+                return "indexEN.jsp";
+            }
+        }
+    }
+
+    private String logboekOverzicht(HttpServletRequest request, HttpServletResponse response) {
+        Cookie cookie = getCookieWithKey(request, "language");
+        // Zelfde uitleg als in home methode
+        if (cookie == null || cookie.getValue().equals("NL")) {
+            return "logboek.jsp";
+        } else {
+            return "logboekEN.jsp";
+        }
     }
 
     public void setNaam(Product product, HttpServletRequest request, ArrayList<String> errors) {
@@ -447,5 +509,14 @@ public class ProductInformatie extends HttpServlet {
                 return cookie;
         }
         return null;
+    }
+
+    private double gemiddeldePrijs(ArrayList<Product> producten) {
+        int aantal = producten.size();
+        int totaal = 0;
+        for (Product p : producten) {
+            totaal += p.getPrijs();
+        }
+        return totaal / aantal;
     }
 }
