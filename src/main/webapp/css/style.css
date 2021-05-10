@@ -7,6 +7,14 @@
 }
 body {
     background-color: #F3F3F3;
+    max-width: 60em;
+    margin-left: auto;
+    margin-right: auto;
+}
+/* MAIN */
+main h1, main h2, main p, .logboek, #titelheader {
+    margin-left: 20px;
+    margin-right: 20px;
 }
 #titelheader {
     margin-bottom: 1em;
@@ -25,9 +33,12 @@ input {
     border: 2px solid #932432;
     border-radius: 4px;
 }
-h1 {
+h1, h2 {
     color: #3C1874;
     margin-top: 1em;
+}
+main p {
+    margin-top: 0.5em;
 }
 p, nav ul li {
     color: #283747;
@@ -62,42 +73,58 @@ li a {
     margin-top: 0.5em;
 }
 tr, th, td {
-    padding: 10px 40px 10px 5px;
+    padding: 0.625em 2.5em 0.625em 0.3125em;
 }
-header {
-    color: #932432;
+#logboekproduct {
+    margin-left: 20px;
+    margin-right: 20px;
 }
-header, main {
-    margin: 9px auto;
-    width: 70%;
+/* NAVIGATIE */
+#actual a { /*als op huidige pagina dan kleur azure*/
+    color: black;
 }
-header nav >ul {
-    list-style-type: none;
+nav ul li a:link, nav ul li a:visited {
+    color: white;
+}
+nav ul li a:hover, nav ul li a:active, nav ul li a:focus {
+    color: #555555;
+}
+nav ul {
     margin: 0;
     padding: 0;
-}
-header nav > ul li{
-    display: block;
-}
-header div {
-    flex-grow: 1;
-    padding-right: 60px;
-}
-
-header,  header  nav > ul {
+    list-style-type: none;
     display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap; /*als geen plaat voor alle 3 dan onder elkaar*/
+    flex-direction: column;
 }
 
-header div{
+nav ul li {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    flex: 1 1 auto;
+}
+nav ul li a {
+    display: block;
+    padding: .5em 1em;
+    margin: .25em;
+    text-decoration: none;
+}
+
+/*header div{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-}
+}*/
 table {
     max-width: 100%;
     background-color: transparent;
     border-top: 2px solid #666;
     border-bottom: 2px solid #666;
     border-collapse: collapse;
+}
+@media screen and (min-width: 950px) {
+    nav ul {
+        display: flex;
+        flex-direction: row;
+    }
 }

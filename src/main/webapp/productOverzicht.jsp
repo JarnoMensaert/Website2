@@ -12,6 +12,7 @@
 <html>
 <head>
     <link rel="stylesheet" href="css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
     <title>Overzicht producten</title>
 </head>
@@ -25,7 +26,7 @@
         <h1 id="overzichttekoop">Producten te koop</h1>
         <c:choose>
             <c:when test="${producten != null}">
-
+        <div style="overflow-x: auto">
         <table id="overzicht">
             <tr>
                 <th>Naam</th>
@@ -46,6 +47,7 @@
             </tr>
                 </c:forEach>
         </table>
+        </div>
             </c:when>
 
             <c:otherwise>

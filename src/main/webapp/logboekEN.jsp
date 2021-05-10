@@ -4,6 +4,7 @@
 <head>
     <title>Logbook</title>
     <link rel="stylesheet" href="css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 
@@ -18,6 +19,7 @@
     <c:choose>
         <c:when test="${productnamen != null}">
 
+            <div id="logboekproduct">
             <table id="overzicht">
                 <tr>
                     <th>Product name</th>
@@ -30,6 +32,8 @@
                     </tr>
                 </c:forEach>
             </table>
+            </div>
+
         </c:when>
 
         <c:otherwise>
