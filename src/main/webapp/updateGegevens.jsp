@@ -47,5 +47,7 @@
 
 </form>
 
+<%-- HOE SERVER VALIDATIE HIER, WANT MIJN FORM GAAT WEG EN KRIJG GEEN ERROR --%>
+
 </body>
 </html>

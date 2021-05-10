@@ -16,7 +16,7 @@
 <h1 id="updateproduct">Update a product</h1>
 <form method="get" action="ProductInformatie?command=updateKeuze&productnaam=${productnaam}" novalidate>
     <p id="producttekoop">
-        Wich fields of ${param.productnaam} do you want to change?
+        Which fields of ${param.productnaam} do you want to change?
     </p>
     <p>
         <label for="naam">Last name</label>

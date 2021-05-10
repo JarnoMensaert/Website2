@@ -11,7 +11,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-public class ProductVerwijderTest {
+public class ProductUpdateTest {
     private WebDriver driver;
     private String url = "http://localhost:8080/mensaert_jarno_war/";
 
@@ -27,32 +27,25 @@ public class ProductVerwijderTest {
     }
 
     @Test
-    public void test_Verwijder_product_met_op_toch_niet_te_clicken_verwijdert_product_niet_en_gaat_terug_naar_overzicht() {
+    public void test_Als_naam_persoon_van_product_wordt_vervangen_Dan_toont_overzicht_met_aangepaste_naam() {
         driver.get(url + "productForm.jsp");
         voegProductToe("Mensaert","Jarno", "muis", 14.00);
-        driver.findElement(By.id("verwijder")).click();
-        driver.findElement(By.id("tochniet")).click();
+        driver.findElement(By.id("update")).click();
+        driver.findElement(By.id("naam")).click();
+        driver.findElement(By.id("bevestig")).click();
+        driver.findElement(By.id("naam")).sendKeys("Steegmans");
+        driver.findElement(By.id("verander")).click();
         assertEquals("Overzicht producten", driver.getTitle());
         assertEquals("Producten te koop", driver.findElement(By.id("overzichttekoop")).getText());
-        assertTrue(paginaBevatTdMetText(driver.findElements(By.tagName("td")), "Mensaert"));
+        assertTrue(paginaBevatTdMetText(driver.findElements(By.tagName("td")), "Steegmans"));
         assertTrue(paginaBevatTdMetText(driver.findElements(By.tagName("td")), "Jarno"));
         assertTrue(paginaBevatTdMetText(driver.findElements(By.tagName("td")), "muis"));
         assertTrue(paginaBevatTdMetText(driver.findElements(By.tagName("td")), "14.0"));
     }
 
-    @Test
-    public void test_Verwijder_product_met_op_zeker_te_clicken_verwijdert_produc_en_gaat_terug_naar_overzicht() {
-        driver.get(url + "productForm.jsp");
-        voegProductToe("Mensaert","Jarno", "muis", 14.00);
-        driver.findElement(By.id("verwijder")).click();
-        driver.findElement(By.id("zeker")).click();
-        assertEquals("Overzicht producten", driver.getTitle());
-        assertEquals("Producten te koop", driver.findElement(By.id("overzichttekoop")).getText());
-        assertFalse(paginaBevatTdMetText(driver.findElements(By.tagName("td")), "Mensaert"));
-        assertFalse(paginaBevatTdMetText(driver.findElements(By.tagName("td")), "Jarno"));
-        assertFalse(paginaBevatTdMetText(driver.findElements(By.tagName("td")), "muis"));
-        assertFalse(paginaBevatTdMetText(driver.findElements(By.tagName("td")), "14.0"));
-    }
+    // NOG TEST VOOR ALS FAALT, MAAR EERST SERVER VALIDATIE BIJ FALEN VAN UPDATE OPLOSSEN
+
+    // HOE HTML VALIDATIE TEST MAKEN, WANT MIJN JSTL IS ALTIJD FOUT
 
     private void voegProductToe(String naam, String voornaam, String productnaam, double prijs) {
         driver.findElement(By.id("naam")).sendKeys(naam);
