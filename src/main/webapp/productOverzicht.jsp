@@ -34,6 +34,7 @@
                 <th>Productnaam</th>
                 <th>Prijs</th>
                 <th>Verwijder</th>
+                <th>Update</th>
             </tr>
 
             <c:forEach var="product" items="${producten}">
@@ -44,6 +45,7 @@
                 <td>${product.productnaam}</td>
                 <td>${product.prijs}</td>
                 <td><a id="verwijder" href="ProductInformatie?command=verwijder&naam=${product.naam}&voornaam=${product.voornaam}&productnaam=${product.productnaam}&prijs=${product.prijs}">Verwijder</a></td>
+                <td><a id="update" href="ProductInformatie?command=update&productnaam=${product.productnaam}">Update</a></td>
             </tr>
                 </c:forEach>
         </table>

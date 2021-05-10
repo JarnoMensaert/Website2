@@ -18,7 +18,7 @@
 </h1>
 
     <c:choose>
-        <c:when test="${productnamen != null}">
+        <c:when test="${not empty productnamen}">
 
             <div id="logboekproduct">
             <table id="overzicht">

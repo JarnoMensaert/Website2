@@ -15,7 +15,7 @@ public class ProductDB {
 
     public void voegToe(Product product) {
         for (Product p : producten) {
-            if (p.getProductnaam().equalsIgnoreCase(product.getProductnaam())) throw new IllegalArgumentException("Er mogen geen 2 producten met dezelfde naam verkocht worden");
+            if (p.getProductnaam().equalsIgnoreCase(product.getProductnaam())) throw new IllegalArgumentException("Er mogen geen 2 producten met dezelfde productnaam verkocht worden");
         }
         producten.add(product);
     }
@@ -34,16 +34,16 @@ public class ProductDB {
         }
     }
 
-    public Product vindProduct (String naam, String voornaam, String productnaam, double prijs) {
+    public Product vindProduct(String productnaam) {
         for (Product product : producten) {
-            if (product.getNaam().equals(naam) && product.getVoornaam().equals(voornaam) && product.getProductnaam().equals(productnaam) && product.getPrijs() == prijs) {
+            if (product.getProductnaam().equals(productnaam)) {
                 return product;
             }
         }
         return null;
     }
 
-    public Product vindProduct (Product product) {
+    public Product vindProduct(Product product) {
         for (Product p : producten) {
             if (product.getNaam().equals(p.getNaam()) && product.getVoornaam().equals(p.getVoornaam()) && product.getProductnaam().equals(p.getProductnaam()) && product.getPrijs() == p.getPrijs()) {
                 return product;

@@ -65,6 +65,15 @@ public class ProductInformatie extends HttpServlet {
             case "logboekOverzicht" :
                 destination = logboekOverzicht(request, response);
                 break;
+            case "update" :
+                destination = update(request, response);
+                break;
+            case "updateKeuze" :
+                destination = updateKeuze(request, response);
+                break;
+            case "updateGegevens" :
+                destination = updateGegevens(request, response);
+                break;
             default :
                 destination = home(request, response);
         }
@@ -340,22 +349,22 @@ public class ProductInformatie extends HttpServlet {
         // Zelfde uitleg als in home methode
         if (cookie == null || cookie.getValue().equals("NL")) {
             if (request.getParameter("bevestiging") == null) {
-                return "index.jsp";
+                return home(request, response);
             }
             else {
                 HttpSession session = request.getSession();
                 session.setAttribute("productnamen", new ArrayList<String>());
-                return "index.jsp";
+                return home(request, response);
             }
         }
         else {
             if (request.getParameter("bevestiging") == null) {
-                return "indexEN.jsp";
+                return home(request, response);
             }
             else {
                 HttpSession session = request.getSession();
                 session.setAttribute("productnamen", new ArrayList<String>());
-                return "indexEN.jsp";
+                return home(request, response);
             }
         }
     }
@@ -368,6 +377,63 @@ public class ProductInformatie extends HttpServlet {
         } else {
             return "logboekEN.jsp";
         }
+    }
+
+    public void voegToe(Product product, HttpServletRequest request, ArrayList<String> errors) {
+        try {
+            db.voegToe(product);
+        }
+        catch (IllegalArgumentException exc) {
+            errors.add(exc.getMessage());
+            request.setAttribute("productClass", "has-error");
+        }
+    }
+
+    public String update(HttpServletRequest request, HttpServletResponse response) {
+        String productnaam = request.getParameter("productnaam");
+        Product product = null;
+        for (Product p : db.getProducten()) {
+            if (p.getProductnaam().equalsIgnoreCase(productnaam)) {
+                product = p;
+            }
+        }
+        request.setAttribute("product", product);
+        return "updateKeuze.jsp";
+    }
+
+    public String updateKeuze(HttpServletRequest request, HttpServletResponse response) {
+        /*String productnaam = request.getParameter("productnaam");
+        Product product = db.vindProduct(productnaam);
+        String naam = request.getParameter("naam");
+        String voornaam = request.getParameter("voornaam");
+        String prijsString = request.getParameter("prijs");
+        double prijs = Double.parseDouble(prijsString);
+        request.setAttribute("naam", naam);
+        request.setAttribute("voornaam", voornaam);
+        request.setAttribute("prijs", prijs);*/
+        return "updateGegevens.jsp";
+    }
+
+    public String updateGegevens(HttpServletRequest request, HttpServletResponse response) {
+        String productnaam = request.getParameter("productnaam");
+        String nieuweNaam = request.getParameter("naam");
+        String nieuweVoornaam = request.getParameter("voornaam");
+        String nieuwePrijsString = request.getParameter("prijs");
+        double nieuwePrijs = 0;
+        if (nieuwePrijsString != null) {
+            nieuwePrijs = Double.parseDouble(nieuwePrijsString);
+        }
+        Product product = db.vindProduct(productnaam);
+        if (nieuweNaam != null) {
+            product.setNaam(nieuweNaam);
+        }
+        if (nieuweVoornaam != null) {
+            product.setVoornaam(nieuweVoornaam);
+        }
+        if (nieuwePrijs > 0) {
+            product.setPrijs(nieuwePrijs);
+        }
+        return overzicht(request, response);
     }
 
     public void setNaam(Product product, HttpServletRequest request, ArrayList<String> errors) {

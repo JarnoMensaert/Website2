@@ -15,15 +15,20 @@
 </jsp:include>
 
 <main id="container1">
-    <c:if test="${not empty errors}">
-        <div class="alert alert-danger">
-            <ul>
-                <c:forEach items="${errors}" var="error">
-                    <li>${error}</li><br>
-                </c:forEach>
-            </ul>
-        </div>
-    </c:if>
+    <c:choose>
+        <c:when test="${not empty errors}">
+            <div class="alert alert-danger">
+                <ul>
+                    <c:forEach items="${errors}" var="error">
+                        <li>${error}</li><br>
+                    </c:forEach>
+                </ul>
+            </div>
+        </c:when>
+        <c:when test="${error != null}">
+            <li>${error}</li><br>
+        </c:when>
+    </c:choose>
     <h1 id="verkoopproduct">Sell a product</h1>
     <form method="post" action="ProductInformatie?command=voegToe" novalidate>
         <p id="producttekoop">
