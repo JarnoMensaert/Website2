@@ -37,7 +37,7 @@
             </p>
             <p class="form-group ${naamClass}">
                 <label class="control-label" for="naam">Naam: </label><input
-                    id="naam" name="naam" type="text" value="${naamPreviousValue}" required>
+                    id="naam" name="naam" type="text" value="${naamPreviousValue}">
             </p>
             <p class="form-group ${voornaamClass}">
                 <label class="control-label" for="voornaam">Voornaam: </label> <input

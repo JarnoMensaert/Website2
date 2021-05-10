@@ -397,8 +397,15 @@ public class ProductInformatie extends HttpServlet {
                 product = p;
             }
         }
-        request.setAttribute("product", product);
-        return "updateKeuze.jsp";
+        Cookie cookie = getCookieWithKey(request, "language");
+        if (cookie == null || cookie.getValue().equals("NL")) {
+            request.setAttribute("product", product);
+            return "updateKeuze.jsp";
+        }
+        else {
+            request.setAttribute("product", product);
+            return "updateKeuzeEN.jsp";
+        }
     }
 
     public String updateKeuze(HttpServletRequest request, HttpServletResponse response) {
@@ -411,7 +418,14 @@ public class ProductInformatie extends HttpServlet {
         request.setAttribute("naam", naam);
         request.setAttribute("voornaam", voornaam);
         request.setAttribute("prijs", prijs);*/
-        return "updateGegevens.jsp";
+        Cookie cookie = getCookieWithKey(request, "language");
+        // Als de value van de cookie NL is, gaan we de nederlandse versie van de pagina laten zien
+        if (cookie == null || cookie.getValue().equals("NL")) {
+            return "updateGegevens.jsp";
+        }
+        else {
+            return "updateGegevensEN.jsp";
+        }
     }
 
     public String updateGegevens(HttpServletRequest request, HttpServletResponse response) {
@@ -420,20 +434,50 @@ public class ProductInformatie extends HttpServlet {
         String nieuweVoornaam = request.getParameter("voornaam");
         String nieuwePrijsString = request.getParameter("prijs");
         double nieuwePrijs = 0;
+        ArrayList<String> errors = new ArrayList<String>();
         if (nieuwePrijsString != null) {
             nieuwePrijs = Double.parseDouble(nieuwePrijsString);
         }
         Product product = db.vindProduct(productnaam);
-        if (nieuweNaam != null) {
-            product.setNaam(nieuweNaam);
+        Cookie cookie = getCookieWithKey(request, "language");
+        // Als de value van de cookie NL is, gaan we de setter methodes gebruiken die de error berichten in het nederlands geven
+        if (cookie == null || cookie.getValue().equals("NL")) {
+            if (nieuweNaam != null) {
+                setNaam(product, request, errors);
+            }
+            if (nieuweVoornaam != null) {
+                setVoornaam(product, request, errors);
+            }
+            if (nieuwePrijs > 0) {
+                setPrijs(product, request, errors);
+            }
+            if (errors.size() == 0) {
+                return overzicht(request, response);
+            }
+            else {
+                request.setAttribute("errors", errors);
+                return "updateGegevens.jsp";
+            }
         }
-        if (nieuweVoornaam != null) {
-            product.setVoornaam(nieuweVoornaam);
+        else {
+            // Als de value van de cookie EN is, gaan we de setter methodes gebruiken die de error berichten in het engels geven
+            if (nieuweNaam != null) {
+                setNaamEN(product, request, errors);
+            }
+            if (nieuweVoornaam != null) {
+                setVoornaamEN(product, request, errors);
+            }
+            if (nieuwePrijs > 0) {
+                setPrijsEN(product, request, errors);
+            }
+            if (errors.size() == 0) {
+                return overzicht(request, response);
+            }
+            else {
+                request.setAttribute("errors", errors);
+                return "updateGegevensEN.jsp";
+            }
         }
-        if (nieuwePrijs > 0) {
-            product.setPrijs(nieuwePrijs);
-        }
-        return overzicht(request, response);
     }
 
     public void setNaam(Product product, HttpServletRequest request, ArrayList<String> errors) {
