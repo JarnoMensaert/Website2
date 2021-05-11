@@ -52,4 +52,10 @@ public class ProductDB {
         return null;
     }
 
+    public void editProduct(Product product, String naam) {
+        Product editedProduct = vindProduct(naam);
+        editedProduct.setNaam(product.getNaam());
+        editedProduct.setVoornaam(product.getVoornaam());
+        editedProduct.setPrijs(product.getPrijs());
+    }
 }

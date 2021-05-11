@@ -37,6 +37,7 @@ We navigeren dan naar de servlet met command=showEnglish
     </main>
 
 <%-- ALS TAAL VERANDEREN IS GEMIDDELDE WEG EN ALS WE IN SERVLET NAAR OVERZICHT METHODE GAAN MOET IK DUBBELCLICKEN VOOR TAAL TE VERANDEREN --%>
+<%-- GEVRAAGD / OPGELOST --%>
 
 </body>
 </html>

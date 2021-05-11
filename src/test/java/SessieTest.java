@@ -57,6 +57,7 @@ public class SessieTest {
     }
 
     // TEST VOOR 2DE BROWSER DIE SESSIE VAN EERSTE NIET GEBRUIKT
+    // GEVRAAGD
 
     private void voegProductToe(String naam, String voornaam, String productnaam, double prijs) {
         driver.findElement(By.id("naam")).sendKeys(naam);

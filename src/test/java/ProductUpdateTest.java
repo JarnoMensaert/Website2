@@ -46,6 +46,7 @@ public class ProductUpdateTest {
     // NOG TEST VOOR ALS FAALT, MAAR EERST SERVER VALIDATIE BIJ FALEN VAN UPDATE OPLOSSEN
 
     // HOE HTML VALIDATIE TEST MAKEN, WANT MIJN JSTL IS ALTIJD FOUT
+    // GEVRAAGD (MET CYCLONE DOEN)
 
     private void voegProductToe(String naam, String voornaam, String productnaam, double prijs) {
         driver.findElement(By.id("naam")).sendKeys(naam);

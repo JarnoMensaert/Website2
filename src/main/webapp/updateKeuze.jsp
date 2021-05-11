@@ -20,15 +20,15 @@
     </p>
     <p>
         <label for="naam">Naam</label>
-        <input id="naam" name="naam" type="radio" value="naam">
+        <input id="naam" name="naam" type="checkbox" value="naam">
     </p>
     <p>
         <label for="voornaam">Voornaam</label>
-        <input id="voornaam" name="voornaam" type="radio" value="voornaam">
+        <input id="voornaam" name="voornaam" type="checkbox" value="voornaam">
     </p>
     <p>
         <label for="prijs">Prijs</label>
-        <input id="prijs" name="prijs" type="radio" value="prijs">
+        <input id="prijs" name="prijs" type="checkbox" value="prijs">
     </p>
     <p class="idform">
         <label for="bevestig">
