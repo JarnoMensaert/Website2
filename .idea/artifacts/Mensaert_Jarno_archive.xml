@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="Mensaert_Jarno archive">
+    <output-path>$PROJECT_DIR$/out/artifacts/Mensaert_Jarno_archive</output-path>
+    <root id="archive" name="Mensaert_Jarno archive.war">
+      <element id="artifact" artifact-name="Mensaert_Jarno" />
+    </root>
+  </artifact>
+</component>
