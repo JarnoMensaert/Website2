@@ -1,6 +1,7 @@
+<!DOCTYPE html>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<html lang="nl">
 <head>
     <link rel="stylesheet" href="css/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,6 +25,6 @@
         </form>
     </article>
 </main>
-
+    <jsp:include page="footer.jsp"/>
 </body>
 </html>

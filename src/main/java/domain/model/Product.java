@@ -14,10 +14,6 @@ public class Product {
         setPrijs(prijs);
     }
 
-    public boolean heeftPrijsEnProductnaam(String productnaam, double prijs) {
-        return productnaam.equals(this.productnaam) && prijs == this.prijs;
-    }
-
     public String getNaam() {
         return naam;
     }

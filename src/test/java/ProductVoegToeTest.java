@@ -1,7 +1,6 @@
 import static org.junit.Assert.*;
 
 import java.util.List;
-import java.util.Random;
 
 import org.junit.After;
 import org.junit.Before;
@@ -13,7 +12,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 public class ProductVoegToeTest {
     private WebDriver driver;
-    private String url = "http://localhost:8080/mensaert_jarno_war/";
+    private String url = "http://localhost:8080/Mensaert_Jarno/";
 
     @Before
     public void setUp() throws Exception {
@@ -88,6 +87,15 @@ public class ProductVoegToeTest {
         assertEquals("Jarno", driver.findElement(By.id("voornaam")).getAttribute("value"));
         assertEquals("Mensaert", driver.findElement(By.id("naam")).getAttribute("value"));
         assertEquals("muis", driver.findElement(By.id("productnaam")).getAttribute("value"));
+    }
+
+    @Test
+    public void test_Alle_velden_maar_al_bestaand_object_geeft_error() {
+        driver.get(url + "productForm.jsp");
+        voegProductToe("Mensaert","Jarno", "muis", 14.00);
+        driver.get(url + "productForm.jsp");
+        voegProductToe("Mensaert","Jarno", "muis", 14.00);
+        assertEquals("Er mogen geen 2 producten met dezelfde productnaam verkocht worden", driver.findElement(By.xpath("/html/body/main/li")).getText());
     }
 
     private void voegProductToe(String naam, String voornaam, String productnaam, double prijs) {

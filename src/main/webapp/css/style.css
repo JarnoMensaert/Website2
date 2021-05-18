@@ -43,12 +43,6 @@ main p {
 p, nav ul li {
     color: #283747;
 }
-/*nav ul li {
-    border: 1px solid #DE354C;
-    border-radius: 25px;
-    padding: 20px;
-    margin-bottom: 1em;
-}*/
 ul {
     list-style-type: none;
     margin: 0;
@@ -69,7 +63,7 @@ li a {
 #overzichttekoop {
     margin-bottom: 0.5em;
 }
-#welkom, #welkproduct, #verkoopproduct, #overzichttekoop {
+#welkom, #welkproduct, #verkoopproduct, #overzichttekoop, #zoekProduct {
     margin-top: 0.5em;
 }
 tr, th, td {
@@ -78,6 +72,21 @@ tr, th, td {
 #logboekproduct {
     margin-left: 20px;
     margin-right: 20px;
+}
+/* VALIDATIE */
+#validatie, #validatie1 {
+    border-radius: 0.5em;
+    list-style-type: disc;
+    background-color: lightgray;
+    max-width: 25em;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+#validatie1 {
+    margin-bottom: 0.5em;
+}
+#validatie {
+    margin-top: 0.5em;
 }
 /* NAVIGATIE */
 #actual a { /*als op huidige pagina dan kleur azure*/
@@ -109,18 +118,23 @@ nav ul li a {
     margin: .25em;
     text-decoration: none;
 }
-
-/*header div{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}*/
 table {
     max-width: 100%;
     background-color: transparent;
     border-top: 2px solid #666;
     border-bottom: 2px solid #666;
     border-collapse: collapse;
+}
+/* FOOTER */
+footer {
+    font-size: small;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 0.5em;
+    position: fixed;
+    text-align: center;
+    left: 0;
+    right: 0;
 }
 @media screen and (min-width: 950px) {
     nav ul {

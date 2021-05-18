@@ -1,8 +1,5 @@
 import static org.junit.Assert.*;
 
-import java.util.List;
-import java.util.Random;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,18 +9,20 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 public class SessieTest {
-    private WebDriver driver;
-    private String url = "http://localhost:8080/mensaert_jarno_war/";
+    private WebDriver driver, driver1;
+    private String url = "http://localhost:8080/Mensaert_Jarno/";
 
     @Before
     public void setUp() throws Exception {
         System.setProperty("webdriver.chrome.driver", "C:\\Users\\mensa\\Documents\\School\\Web2\\chromedriver_win32\\chromedriver.exe");
         driver = new ChromeDriver();
+        driver1 = new ChromeDriver();
     }
 
     @After
     public void tearDown() throws Exception {
         driver.quit();
+        driver1.quit();
     }
 
     @Test
@@ -41,9 +40,7 @@ public class SessieTest {
     }
 
     @Test
-    public void test_Opgezochte_product_wordt_toegevoegd_aan_logboek_Als_gebruiker_logboek_heeft_toegestaan() {
-        driver.get(url + "ProductInformatie?command=home");
-        driver.findElement(By.id("jalogboek")).click();
+    public void test_Opgezochte_product_wordt_toegevoegd_aan_logboek() {
         driver.get(url + "productForm.jsp");
         voegProductToe("Mensaert","Jarno", "muis", 14.00);
         driver.get(url + "ProductInformatie?command=zoek");
@@ -54,10 +51,9 @@ public class SessieTest {
         driver.findElement(By.id("zoek")).click();
         driver.get(url + "ProductInformatie?command=logboekOverzicht");
         assertEquals("muis", driver.findElement(By.xpath("/html/body/main/div/table/tbody/tr[2]/td")).getText() );
+        driver1.get(url + "ProductInformatie?command=logboekOverzicht");
+        assertEquals("Je hebt nog geen producten opgezocht die succesvol waren.", driver1.findElement(By.xpath("/html/body/main/p")).getText());
     }
-
-    // TEST VOOR 2DE BROWSER DIE SESSIE VAN EERSTE NIET GEBRUIKT
-    // GEVRAAGD
 
     private void voegProductToe(String naam, String voornaam, String productnaam, double prijs) {
         driver.findElement(By.id("naam")).sendKeys(naam);
@@ -65,14 +61,5 @@ public class SessieTest {
         driver.findElement(By.id("productnaam")).sendKeys(productnaam);
         driver.findElement(By.id("prijs")).sendKeys(prijs + "");
         driver.findElement(By.id("bewaar")).click();
-    }
-
-    private boolean containsWebElementWithText(List<WebElement> elements, String text) {
-        for (WebElement element : elements) {
-            if (element.getText().equals(text)) {
-                return true;
-            }
-        }
-        return false;
     }
 }

@@ -59,9 +59,6 @@ public class ProductInformatie extends HttpServlet {
             case "verkoop" :
                 destination = verkoop(request, response);
                 break;
-            case "logboek" :
-                destination = makeListLogboek(request, response);
-                break;
             case "logboekOverzicht" :
                 destination = logboekOverzicht(request, response);
                 break;
@@ -170,17 +167,6 @@ public class ProductInformatie extends HttpServlet {
                 return "productFormEN.jsp";
             }
         }
-
-
-        /*if (naam != null && voornaam != null && productnaam != null) {
-            double prijs = Double.parseDouble(prijsString);
-            Product product = new Product(naam, voornaam, productnaam, prijs);
-            db.voegToe(product);
-            return overzicht(request, response);
-        }
-        else {
-            return "productForm.jsp";
-        }*/
     }
 
     private String verwijder(HttpServletRequest request, HttpServletResponse response) {
@@ -228,9 +214,6 @@ public class ProductInformatie extends HttpServlet {
         }
     }
 
-    // VOOR LOG, KLASSE MAKEN EN EEN ARRAYLIST MAKEN VAN LOGS
-    // VOEG DAN AAN SESSION
-
     private String zoekProduct(HttpServletRequest request, HttpServletResponse response) {
         ArrayList<String> errors = new ArrayList<String>();
 
@@ -245,12 +228,7 @@ public class ProductInformatie extends HttpServlet {
             if (errors.size() == 0) {
                 try {
                     if (db.vindProduct(product) != null) {
-                        HttpSession session = request.getSession();
-                        ArrayList<String> productenLogboek = (ArrayList<String>) session.getAttribute("productnamen");
-                        if (productenLogboek == null) {
-                            return "gevonden.jsp";
-                        }
-                        productenLogboek.add(product.getProductnaam());
+                        logboekVoorSessies(request, product.getProductnaam());
                         return "gevonden.jsp";
                     }
                     else {
@@ -277,12 +255,7 @@ public class ProductInformatie extends HttpServlet {
             if (errors.size() == 0) {
                 try {
                     if (db.vindProduct(product) != null) {
-                        HttpSession session = request.getSession();
-                        ArrayList<String> productenLogboek = (ArrayList<String>) session.getAttribute("productnamen");
-                        if (productenLogboek == null) {
-                            return "gevondenEN.jsp";
-                        }
-                        productenLogboek.add(product.getProductnaam());
+                        logboekVoorSessies(request, product.getProductnaam());
                         return "gevondenEN.jsp";
                     }
                     else {
@@ -337,31 +310,6 @@ public class ProductInformatie extends HttpServlet {
         }
     }
 
-    private String makeListLogboek(HttpServletRequest request, HttpServletResponse response) {
-        Cookie cookie = getCookieWithKey(request, "language");
-        // Zelfde uitleg als in home methode
-        if (cookie == null || cookie.getValue().equals("NL")) {
-            if (request.getParameter("bevestiging") == null) {
-                return home(request, response);
-            }
-            else {
-                HttpSession session = request.getSession();
-                session.setAttribute("productnamen", new ArrayList<String>());
-                return home(request, response);
-            }
-        }
-        else {
-            if (request.getParameter("bevestiging") == null) {
-                return home(request, response);
-            }
-            else {
-                HttpSession session = request.getSession();
-                session.setAttribute("productnamen", new ArrayList<String>());
-                return home(request, response);
-            }
-        }
-    }
-
     private String logboekOverzicht(HttpServletRequest request, HttpServletResponse response) {
         Cookie cookie = getCookieWithKey(request, "language");
         // Zelfde uitleg als in home methode
@@ -372,130 +320,64 @@ public class ProductInformatie extends HttpServlet {
         }
     }
 
-    public void voegToe(Product product, HttpServletRequest request, ArrayList<String> errors) {
-        try {
-            db.voegToe(product);
-        }
-        catch (IllegalArgumentException exc) {
-            errors.add(exc.getMessage());
-            request.setAttribute("productClass", "has-error");
-        }
-    }
-
     private String update(HttpServletRequest request, HttpServletResponse response) {
+        Cookie cookie = getCookieWithKey(request, "language");
         String productnaam = request.getParameter("productnaam");
         Product product = db.vindProduct(productnaam);
         request.setAttribute("product", product);
-        return "update.jsp";
+        if (cookie == null || cookie.getValue().equals("NL")) {
+            return "update.jsp";
+        }
+        else {
+            return "updateEN.jsp";
+        }
     }
 
     private String updateProduct(HttpServletRequest request, HttpServletResponse response) {
+        Cookie cookie = getCookieWithKey(request, "language");
         ArrayList<String> errors = new ArrayList<>();
         Product product = new Product();
-        setNaam(product, request, errors);
-        setVoornaam(product, request, errors);
-        setPrijs(product, request, errors);
-        try {
-            db.editProduct(product, request.getParameter("productnaam"));
-        }
-        catch (IllegalArgumentException exc) {
+        if (cookie == null || cookie.getValue().equals("NL")) {
+            setNaam(product, request, errors);
+            setVoornaam(product, request, errors);
+            setPrijs(product, request, errors);
+            try {
+                db.editProduct(product, request.getParameter("productnaam"));
+            } catch (IllegalArgumentException exc) {
+                request.setAttribute("errors", errors);
+                return update(request, response);
+            }
             request.setAttribute("errors", errors);
-            return update(request, response);
+            return overzicht(request, response);
         }
-        request.setAttribute("errors", errors);
-        return overzicht(request, response);
-    }
-
-    /*public String update(HttpServletRequest request, HttpServletResponse response) {
-        String productnaam = request.getParameter("productnaam");
-        Product product = null;
-        for (Product p : db.getProducten()) {
-            if (p.getProductnaam().equalsIgnoreCase(productnaam)) {
-                product = p;
+        else {
+            setNaamEN(product, request, errors);
+            setVoornaamEN(product, request, errors);
+            setPrijsEN(product, request, errors);
+            try {
+                db.editProduct(product, request.getParameter("productnaam"));
+            } catch (IllegalArgumentException exc) {
+                request.setAttribute("errors", errors);
+                return update(request, response);
             }
-        }
-        Cookie cookie = getCookieWithKey(request, "language");
-        if (cookie == null || cookie.getValue().equals("NL")) {
-            request.setAttribute("product", product);
-            return "updateKeuze.jsp";
-        }
-        else {
-            request.setAttribute("product", product);
-            return "updateKeuzeEN.jsp";
-        }
-    }*/
-
-    /*public String updateKeuze(HttpServletRequest request, HttpServletResponse response) {
-        String productnaam = request.getParameter("productnaam");
-        Product product = db.vindProduct(productnaam);
-        String naam = request.getParameter("naam");
-        String voornaam = request.getParameter("voornaam");
-        String prijsString = request.getParameter("prijs");
-        double prijs = Double.parseDouble(prijsString);
-        request.setAttribute("naam", naam);
-        request.setAttribute("voornaam", voornaam);
-        request.setAttribute("prijs", prijs);
-        Cookie cookie = getCookieWithKey(request, "language");
-        // Als de value van de cookie NL is, gaan we de nederlandse versie van de pagina laten zien
-        if (cookie == null || cookie.getValue().equals("NL")) {
-            return "updateGegevens.jsp";
-        }
-        else {
-            return "updateGegevensEN.jsp";
+            request.setAttribute("errors", errors);
+            return overzicht(request, response);
         }
     }
 
-    public String updateGegevens(HttpServletRequest request, HttpServletResponse response) {
-        String productnaam = request.getParameter("productnaam");
-        String nieuweNaam = request.getParameter("naam");
-        String nieuweVoornaam = request.getParameter("voornaam");
-        String nieuwePrijsString = request.getParameter("prijs");
-        double nieuwePrijs = 0;
-        ArrayList<String> errors = new ArrayList<String>();
-        if (nieuwePrijsString != null || !nieuwePrijsString.isBlank()) {
-            nieuwePrijs = Double.parseDouble(nieuwePrijsString);
+    public void logboekVoorSessies(HttpServletRequest request, String zoek){
+        HttpSession session = request.getSession();
+        if (session.getAttribute("productnamen") == null){
+            ArrayList<String> logboek = new ArrayList<>();
+            logboek.add(zoek);
+            session.setAttribute("productnamen", logboek);
         }
-        Product product = db.vindProduct(productnaam);
-        Cookie cookie = getCookieWithKey(request, "language");
-        // Als de value van de cookie NL is, gaan we de setter methodes gebruiken die de error berichten in het nederlands geven
-        if (cookie == null || cookie.getValue().equals("NL")) {
-            if (nieuweNaam != null) {
-                setNaam(product, request, errors);
-            }
-            if (nieuweVoornaam != null) {
-                setVoornaam(product, request, errors);
-            }
-            if (nieuwePrijs > 0) {
-                setPrijs(product, request, errors);
-            }
-            if (errors.size() == 0) {
-                return overzicht(request, response);
-            }
-            else {
-                request.setAttribute("errors", errors);
-                return "updateGegevens.jsp";
-            }
+        else{
+            ArrayList<String> logboek = (ArrayList<String>)session.getAttribute("productnamen");
+            logboek.add(zoek);
+            session.setAttribute("productnamen", logboek);
         }
-        else {
-            // Als de value van de cookie EN is, gaan we de setter methodes gebruiken die de error berichten in het engels geven
-            if (nieuweNaam != null) {
-                setNaamEN(product, request, errors);
-            }
-            if (nieuweVoornaam != null) {
-                setVoornaamEN(product, request, errors);
-            }
-            if (nieuwePrijs > 0) {
-                setPrijsEN(product, request, errors);
-            }
-            if (errors.size() == 0) {
-                return overzicht(request, response);
-            }
-            else {
-                request.setAttribute("errors", errors);
-                return "updateGegevensEN.jsp";
-            }
-        }
-    }*/
+    }
 
     public void setNaam(Product product, HttpServletRequest request, ArrayList<String> errors) {
         String naam = request.getParameter("naam");

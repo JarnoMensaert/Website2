@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
-<html>
+<html lang="nl">
 <head>
     <link rel="stylesheet" href="css/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,7 +18,7 @@
         <c:choose>
             <c:when test="${not empty errors}">
                 <div class="alert alert-danger">
-                    <ul>
+                    <ul id="validatie">
                         <c:forEach items="${errors}" var="error">
                             <li>${error}</li><br>
                         </c:forEach>
@@ -26,7 +26,7 @@
                 </div>
             </c:when>
             <c:when test="${error != null}">
-                <li>${error}</li><br>
+                <li id="validatie1">${error}</li>
             </c:when>
         </c:choose>
 
@@ -61,5 +61,6 @@
 
         </form>
     </main>
+    <jsp:include page="footer.jsp"/>
 </body>
 </html>

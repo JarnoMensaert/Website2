@@ -1,7 +1,6 @@
 import static org.junit.Assert.*;
 
 import java.util.List;
-import java.util.Random;
 
 import org.junit.After;
 import org.junit.Before;
@@ -13,7 +12,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 public class ProductVerwijderTest {
     private WebDriver driver;
-    private String url = "http://localhost:8080/mensaert_jarno_war/";
+    private String url = "http://localhost:8080/Mensaert_Jarno/";
 
     @Before
     public void setUp() throws Exception {

@@ -9,8 +9,6 @@ public class ProductDB {
 
     public ProductDB() {
         producten = new ArrayList<>();
-        /*Product product1 = new Product("Mensaert", "Jarno", "muis", 14.00);
-        Product product2 = new Product("Mensaert", "Mathias", "toetsenbord", 45.00);*/
     }
 
     public void voegToe(Product product) {

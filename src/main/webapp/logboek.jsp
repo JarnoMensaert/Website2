@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<html lang="nl">
 <head>
     <title>Logboek</title>
     <link rel="stylesheet" href="css/style.css">
@@ -43,6 +43,6 @@
         </c:otherwise>
     </c:choose>
 </main>
-
+<jsp:include page="footer.jsp"/>
 </body>
 </html>

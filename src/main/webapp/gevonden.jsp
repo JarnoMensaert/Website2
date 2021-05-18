@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
-<html>
+<html lang="nl">
 <head>
     <link rel="stylesheet" href="css/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,6 +20,6 @@
             Je vroeg naar volgende gegevens: ${param.productnaam} ${param.prijs} euro
         </p>
     </main>
-
+    <jsp:include page="footer.jsp"/>
 </body>
 </html>

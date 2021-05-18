@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
-<html>
+<html lang="nl">
 <head>
     <link rel="stylesheet" href="css/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,20 +24,7 @@
 Als er op deze link geclickt wordt, zal er in de url command=showEnglish staan.
 We navigeren dan naar de servlet met command=showEnglish
 --%>
-    <h2>Logboek?</h2>
-    <p>Wilt u een logboek van uw opgezochte personen onthouden?</p>
-    <form action="ProductInformatie?command=logboek" method="POST" class="logboek">
-        <input id="jalogboek" type="submit" value="Ja" name="bevestiging">
-        <input id="neelogboek" type="submit" value="Nee" name="geenbevestiging">
-    </form>
-        <c:if test="${gemiddelde != null}">
-        <h2>Gemiddelde prijs</h2>
-            <p>De gemiddelde prijs van alle producten die in de aanbieding staan is: ${gemiddelde} euro</p>
-        </c:if>
     </main>
-
-<%-- ALS TAAL VERANDEREN IS GEMIDDELDE WEG EN ALS WE IN SERVLET NAAR OVERZICHT METHODE GAAN MOET IK DUBBELCLICKEN VOOR TAAL TE VERANDEREN --%>
-<%-- GEVRAAGD / OPGELOST --%>
-
+    <jsp:include page="footer.jsp"/>
 </body>
 </html>

@@ -1,19 +1,15 @@
 import static org.junit.Assert.*;
 
-import java.util.List;
-import java.util.Random;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 public class ProductZoekTest {
     private WebDriver driver;
-    private String url = "http://localhost:8080/mensaert_jarno_war/";
+    private String url = "http://localhost:8080/Mensaert_Jarno/";
 
     @Before
     public void setUp() throws Exception {

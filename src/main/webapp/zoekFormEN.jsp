@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <link rel="stylesheet" href="css/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,7 +17,7 @@
 <main id="container1">
     <c:if test="${not empty errors}">
         <div class="alert alert-danger">
-            <ul>
+            <ul id="validatie">
                 <c:forEach items="${errors}" var="error">
                     <li>${error}</li><br>
                 </c:forEach>
@@ -45,26 +45,6 @@
             <label class="control-label" for="prijs">Price: </label><input
                 id="prijs" name="prijs" type="text" value="${prijsPreviousValue}">
         </p>
-        <%--<p class="idform">
-            <label for="naam">
-                Naam: <input id="naam" name="naam" type="text" value="" required>
-            </label>
-        </p>
-        <p class="idform">
-            <label for="voornaam">
-                Voornaam: <input id="voornaam" name="voornaam" type="text" value="" required>
-            </label>
-        </p>
-        <p class="idform">
-            <label for="productnaam">
-                Productnaam: <input id="productnaam" name="productnaam" type="text" value="" required>
-            </label>
-        </p>
-        <p class="idform">
-            <label for="prijs">
-                Prijs: <input id="prijs" name="prijs" type="number" value="" required>
-            </label>
-        </p> --%>
         <p class="idform">
             <label for="zoek">
                 <input id="zoek" type="submit" value="Search product">
@@ -75,5 +55,6 @@
 
     </form>
 </main>
+<jsp:include page="footer.jsp"/>
 </body>
 </html>
