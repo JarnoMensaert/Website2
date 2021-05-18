@@ -20,12 +20,6 @@
 
 
 <p><a href="ProductInformatie?command=showNederlands">Ik heb liever de website in het nederlands</a></p>
-<h2>Logbook?</h2>
-<p>Do you want to keep a logbook of your product searches?</p>
-<form action="ProductInformatie?command=logboek" method="POST" class="logboek">
-    <input type="submit" value="Yes" name="bevestiging">
-    <input type="submit" value="No" name="geenbevestiging">
-</form>
     <c:if test="${gemiddelde != null}">
     <h2>Average price</h2>
         <p>The average price of the products for sale is: ${gemiddelde} euro</p>
