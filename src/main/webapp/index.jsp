@@ -24,6 +24,10 @@
 Als er op deze link geclickt wordt, zal er in de url command=showEnglish staan.
 We navigeren dan naar de servlet met command=showEnglish
 --%>
+        <c:if test="${gemiddelde != null}">
+            <h2>Gemiddelde prijs</h2>
+            <p>De gemiddelde prijs van alle producten die in de aanbieding staan is: ${gemiddelde} euro</p>
+        </c:if>
     </main>
     <jsp:include page="footer.jsp"/>
 </body>
